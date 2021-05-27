@@ -1,0 +1,3025 @@
+FORMAT: 1A
+HOST: https://markup.hbrtaiwan.com/
+
+# HBR
+
+一共有以下 Template :
+1. 首頁
+2. 子首頁-主題分類
+3. 主題分類列表(單一主題分類)
+4. 子首頁-個案研究
+5. 單一個案研究 ( 美國 / 本土 )
+6. 單一本土長個案
+7. 子首頁-觀念圖解
+8. 單一觀念圖解 ( 圖表 / PTT )
+9. 子首頁-導師講座
+10. 單一導師講座
+11. 子首頁-個人學院
+12. 單一個人學院 ( 紙本 / 數位文章 / 影片 / 精選專題 / 個案研究 )
+13. 子首頁-精選專題
+14. 單一精選專題 ( 雜誌企劃文章 )
+15. 子首頁-雜誌 ( 特刊 / 書籍 )
+16. 單一目錄
+17. 子首頁-影音
+18. 影片列表 ( 含分類 )
+19. 單一影片
+20. 音頻列表 ( 含分類 )
+21. 單一音頻
+22. 最新文章列表
+23. 熱門文章列表
+24. 時事列表
+25. 作者文章列表
+26. 單一文章 ( 數位 / 紙本 / 廣邊搞 )
+
+使用共用 API 的所有版型資訊 `GET-/api/template_map/`, 依據 `templateSlug` 去請求該版型應該要有的內容
+
+# Group 首頁
+
+## 主視覺區塊 [/api/home/master_list/]
+取4篇指定文章，將第一篇顯示為最大格的主視覺
+### GET-/api/home/master_list/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + videoPost (array) - 4篇指定文章
+            + (object)
+                + postId: 0 (number, required) - 單一文章 ID
+                + title: `ESG 行動造就差異化優勢` (string, required) - 單一文章中文標題
+                + enTitle: `Social-Impact Efforts That Create Real Value` (string, required) - 單一文章英文標題
+                + publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                + featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                + formPeriodical - 出版品資訊
+                    - Include periodical
+                + template - 版型資訊
+                    - Include template
+                + topicInfo - 分類主題資訊
+                    - Include topicInfo
+                + author (array[singAuthorInfo]) - 作者資訊
+            + (object)
+                + postId: 0 (number, required) - 單一文章 ID
+                + title: `京城銀戴誠志堅守「匹配」客戶社區銀行十年股價翻三倍` (string, required) - 單一文章中文標題
+                + description: `京城銀行董事長，不隨波逐流 CEO !` - (string, required) - 文章引言
+                + template - 版型資訊
+                    - Include template
+                + topicInfo - 分類主題資訊
+                    - Include topicInfo
+                + author (array[singAuthorInfo]) - 作者資訊
+            + (object)
+                + postId: 0 (number, required) - 單一文章 ID
+                + title: `重新思考如何打造企業的 AI 策略` (string, required) - 單一文章中文標題
+                + description: `邀請相關領域學者專家，與實務精英為台灣企業關心的經營管理議題，提供一個整體思維架構` - (string, required) - 文章引言
+                + template - 版型資訊
+                    - Include template
+                + topicInfo - 分類主題資訊
+                    - Include topicInfo
+                + author (array[singAuthorInfo]) - 作者資訊
+            + (object)
+                + postId: 0 (number, required) - 單一文章 ID
+                + title: `如何因應對手的降價` (string, required) - 單一文章中文標題
+                + description: `從來沒有這麼多科技與腦力用在供應鏈績效的改進上，櫃檯的掃瞄機讓各零售點得以捕捉住顧客的聲音。` - (string, required) - 文章引言
+                + template - 版型資訊
+                    - Include template
+                + topicInfo - 分類主題資訊
+                    - Include topicInfo
+                + favoriteTo (array[favoriteFolder]) - 被收藏至
+                + author (array[singAuthorInfo]) - 作者資訊
+
+## 最新文章 [/api/post/get_list/count_3]
+使用共用 API 的文章列表`POST-/api/post/get_list/` \
+請求時的參數帶上`"count":3`
+
+## 廣編稿 [/api/post/get_list_sponsor]
+此為顯示在首頁, 最新文章列表中的第三篇廣編稿
+### GET-/api/post/get_list_sponsor/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + Include slideSingPostAttrSponsor
+
+## 熱門點閱 [/api/post/get_list/popular_list]
+使用共用 API 的文章列表`POST-/api/post/get_list_popular/` \
+請求時的參數帶上`"count":3`
+
+## 熱門主題 [/api/topicInfo/get_list/popular]
+使用共用 API 的文章列表`POST-/api/topicInfo/get_list_popular/`
+
+## 焦點區塊 [/api/home/spotlight/]
+包含首頁的因應時事、個人學院、個案研究、HBR導師講座、精選專題、人資專區、觀念圖解、出版品區塊
+### POST-/api/home/spotlight/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + currentEvents: `show` (string, optional) - show/hide 來設定是否顯示因應時事區塊
+        + hrArea: `show` (string, optional) - show/hide 來設定是否顯示人事專區
++ Response 200 (application/json)
+    + Attributes (object)
+        + currentEvents - 因應時事區塊
+            + subscriberOnly: false (boolean, required) - 顯示是否為訂戶限定
+            + title: `因應時事` (string, required) - 因應時事區塊的標題
+            + background: `/images/articles_images/AR0000662.jpg` (string, required) - 因應時事區塊的背景圖
+            + queryList (array[slideSingPostAttr]) - 預設顯示2篇
+        + personalCollege - 個人學院區塊
+            + subscriberOnly: true (boolean, required) - 顯示是否為訂戶限定
+            + title: `個人學院` (string, required) - 個人學院區塊的主標題
+            + background: `/images/articles_images/AR0010170.jpg` (string, required) - 個人學院區塊的背景圖
+            + subTitle: `失敗教我的事情` (string, required) - 個人學院區塊的副標題
+            + description: `大部分的人都害怕失敗，但失敗其實有正面的意義。面對不確定的未來，你甚至可以設計失敗，來從中學習` (string, required) - 個人學院區塊的文字敘述
+            + link: `/personal_college` - (string, required) - 個人學院的路由路徑
+        + caseStudy - 個案研究區塊
+            + subscriberOnly: false (boolean, required) - 顯示是否為訂戶限定
+            + title: `個案研究` (string, required) - 個案研究區塊的標題
+            + description: `以虛構的商場故事，描述領導人可能的兩難抉擇` (string, required) - 個案研究區塊的文字敘述
+            + queryList (array[slideSingPostAttr]) - 預設顯示2篇
+        + tutorLecture - 導師講座區塊
+            + subscriberOnly: true (boolean, required) - 顯示是否為訂戶限定
+            + title: `HBR 導師講座` (string, required) - HBR 導師講座區塊的主標題
+            + background: `/images/articles_images/AR0010145.jpg` (string, required) - HBR 導師講座區塊的背景圖
+            + subTitle: `看區塊練如何再轉型` (string, required) - HBR 導師講座區塊的副標題
+            + description: `本導讀涵蓋七篇《哈佛商業評論全球繁體中文版》文章，討論組織使用數位科技進行轉型的關鍵因素、區塊鏈技術的推動進程、以及應用案例` (string, required) - HBR 導師講座區塊的文字敘述
+            + link: `/tutor_lecture` - (string, required) - 導師講座的路由路徑
+        + specialTopics - 精選專題區塊
+            + subscriberOnly: true (boolean, required) - 顯示是否為訂戶限定
+            + title: `精選專題` (string, required) - 精選專題區塊的主標題
+            + background: `/images/articles_images/AR0010154.jpg` (string, required) - 精選專題區塊的背景圖
+            + subTitle: `打造平權新時代` (string, required) - 精選專題區塊的副標題
+            + description: `美琳達·蓋茲表示，雖然在勞動參與方面，南朒人數以趨於平等，但關於薪資與工作機會方面，男性與女性之間仁有不小的問題` (string, required) - 精選專題區塊的文字敘述
+            + link: `/special_topics` - (string, required) - 精選專題的路由路徑
+        + hrArea - 人資專區區塊
+            + subscriberOnly: false (boolean, required) - 顯示是否為訂戶限定
+            + title: `人資專區` (string, required) - 人資專區的標題
+            + background: `/images/articles_images/AR0010173.jpg` (string, required) - 人資專區的背景圖
+            + queryList (array[slideSingPostAttr]) - 預設顯示2篇
+        + IdeaDiagram - 觀念圖解區塊
+            + subscriberOnly: true (boolean, required) - 顯示是否為訂戶限定
+            + title: `觀念圖解` (string, required) - 觀念圖解區塊的主標題
+            + background: `/images/articles_images/AR0010181.jpg` (string, required) - 觀念圖解區塊的背景圖
+            + description: `數位板訂戶專屬內容，將管理重點與資訊圖表以視覺化方式呈現，您快速掌握論點精要` (string, required) - 觀念圖解區塊的文字敘述
+        + periodical - 出版品區塊
+            + subscriberOnly: false (boolean, required) - 顯示是否為訂戶限定
+            + title: `瀏覽全部期數` (string, required) - 出版品區塊的主標題
+            + background: `/images/articles_images/AR0010181.jpg` (string, required) - 出版品區塊的背景圖
+
+## 最新影音 [/api/home/media_list/]
+指定3篇為『影音』的主題分類的文章，將第一篇顯示最大格；指定1篇『音頻』的主題分類的文章
+### GET-/api/home/media_list/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + videoPost (array) - 3篇影音文章
+            + (object)
+                + postId: 0 (number, required) - 單一文章 ID
+                + title: `迎接永續新浪朝，台達電如何化 ESG 為企業 DNA?` (string, required) - 單一文章中文標題
+                + description: `其實認識台達的朋友大概都知道，環保、節能、愛地球是台達的經營理念，所以它就變成了我們所做的「ESG」，企業社會責任中最重要的上層指導原則。` - (string, required) - 文章引言
+                + publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                + featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                + template - 版型資訊
+                    - Include template
+                + topicInfo - 分類主題資訊
+                    - Include topicInfo
+                + favoriteTo (array[favoriteFolder]) - 被收藏至
+                + author (array[singAuthorInfo]) - 作者資訊
+            + (object)
+                + postId: 0 (number, required) - 單一文章 ID
+                + title: `了解客戶真正想要什麼` (string, required) - 單一文章中文標題
+                + template - 版型資訊
+                    - Include template
+                + topicInfo - 分類主題資訊
+                    - Include topicInfo
+                + favoriteTo (array[favoriteFolder]) - 被收藏至
+                + author (array[singAuthorInfo]) - 作者資訊
+            + (object)
+                + postId: 0 (number, required) - 單一文章 ID
+                + title: `進行有效的遠距會議` (string, required) - 單一文章中文標題
+                + template - 版型資訊
+                    - Include template
+                + topicInfo - 分類主題資訊
+                    - Include topicInfo
+                + favoriteTo (array[favoriteFolder]) - 被收藏至
+                + author (array[singAuthorInfo]) - 作者資訊
+        + videoIndexLink: `/topic/8219` (string, required) - 『影音』主題分類頁的路由
+        + audioPost (object) - 1篇音頻文章
+            + postId: 0 (number, required) - 單一文章 ID
+            + title: `要解決問題，首先從可能最差勁的構想開始著手` (string, required) - 單一文章中文標題
+            + publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+            + featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+            + template - 版型資訊
+                - Include template
+            + topicInfo - 分類主題資訊
+                - Include topicInfo
+            + favoriteTo (array[favoriteFolder]) - 被收藏至
+            + author (array[singAuthorInfo]) - 作者資訊
+        + audioIndexLink: `/topic/8226` (string, required) - 『音頻』主題分類頁的路由
+
+## 瀏覽全部期數 [/api/home/magazine/search]
+使用「雜誌/特刊/書籍」的『出版品查詢』`POST-/api/periodical/search_periodical/` \
+請求時的參數帶上出版品月份`"publishedMonth":11`和出版品年份`"publishedYear":2020`
+
+
+# Group 主題分類
+
+## 主題分類小首頁資訊 [/api/topicInfo/indexInfo/]
+標題區塊的文字敘述
+### GET-/api/topicInfo/indexInfo/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + titleEn: `All Topics` (string, required) - 英文主標題
+        + title: `主題分類` (string, required) - 中文主標題
+        + description: `對特定主題的文章有興趣嗎?可以直接點選下方的主題，可連結到該主題的所有文章。如果你是HBRTAIWAN的網站會員，可以追蹤該主題，即可在會員中心收到最新文章的通知。` (string, required) - 主題分類小首頁的文字敘述
+
+## 主題分類列表 [/api/topicInfo/get_list/]
+總共有172個主題分類，依據請求參數更改回傳結果
+### POST-/api/topicInfo/get_list/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 登入後才能得知道是否有追蹤
+        + count: 1 (number, optional) - 數量, 不填預設列出全部
+        + page: 0 (number, optional) - 頁數, 不填預設為1頁
+        + sortBy: `latest` (string, optional) - 排列依據, 預設為 新→舊 latest, 可填隨機 random
+        + sortOder: `DESC` (string, optional) - 排列順序, 不填預設為降冪
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[topicInfo])
+
+## 熱門主題分類列表 [/api/topicInfo/get_list_popular/]
+預設取前20個熱門主題
+### POST-/api/topicInfo/get_list_popular/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 登入後才能得知道是否有追蹤
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[topicInfo])
+
+## 單一主題分類 [/api/topicInfo/get_single/{topicId}]
+### GET-/api/topicInfo/get_sing/{topicId} [GET]
++ Parameters
+    + topicId: 0 (number, required) - 主題分類 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + topicInfo - 此 topicId 的主題分類資訊
+            + Include topicInfo
+        + recommend (array[slideSingPostAttr]) - 預設回傳2篇推薦文章
+
+
+# Group 雜誌/特刊/書籍
+
+## 雜誌/特刊/書籍小首頁資訊 [/api/periodical/indexInfo/]
+標題區塊的文字敘述
+### GET-/api/periodical/indexInfo/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + titleEn: `Magazine & Book` (string, required) - 英文主標題
+        + title: `雜誌 / 書籍` (string, required) - 中文主標題
+        + description: `每月一日出刊最新雜誌。數位版可完整瀏覽每月雜誌內容、不定期特刊與所有過往出版過的書籍。` (string, required) - 雜誌/特刊/書籍小首頁的文字敘述
+        + periodicalCat - 出版品分類名稱
+            - Include periodicalCat
+
+## 出版品「雜誌/特刊」列表 [/api/periodical/get_list/{periodicalCatId}]
+2個出版品參數: 雜誌「magazine」、特刊「issue」依據請求參數更改回傳結果\
+需能以「出版品年份」做查詢
+### GET-/api/periodical/get_list/{periodicalCatId} [GET]
++ Parameters
+    + periodicalCatId: `magazine` (string, required) - 出版品分類 ID : 雜誌「magazine」、特刊「issue」
++ Request (application/json)
+    + publishedYear: 2020 (number, required) - 依據出版品年份查詢
+    + Attributes (listFormat)
+        + sortBy: `latest` (string, optional) - 排列依據預設為 `新→舊 latest`, 一共有以下三個排列依據: `新→舊 latest` , `舊→新 oldest` , `關聯性 related`
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[listSingPeriodicalAttr])
+
+## 出版品「書籍」列表 [/api/periodical/get_books]
+請求時可藉由 page 參數, 呼叫分頁的資訊
+### GET-/api/periodical/get_books [GET]
++ Request (application/json)
+    + Attributes (listFormat)
+        + sortBy: `latest` (string, optional) - 排列依據預設為 `新→舊 latest`, `舊→新 oldest`, `關聯性 related`
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[listSingBookAttr])
+        + totalElements: 8 (number) - 回傳查詢的文章總共有幾篇
+        + totalPages: 0 (number) - 回傳查詢的文章總共有幾頁
+
+## 單一出版品 [/api/periodical/get_single/{periodicalId}]
+此為目錄頁面\
+以章節資訊構成 array[總編輯的話, 焦點企劃, 專欄, 書摘...]\
+每個章節資訊內容為 array[postA, postB, postC...]
+### GET-/api/periodical/get_sing/{periodicalId} [GET]
++ Parameters
+    + periodicalId: 0 (number, required) - 出版品 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + formPeriodical (periodical) - 出版品標題區塊資訊
+        + queryList (array[chapterInfo]) - 章節名稱及其底下的文章
+
+## 出版品查詢 [/api/periodical/search_periodical/]
+必須同時送出出版品『年份』和『月份』2 個參數, 來查詢『單一出版品』的資料
+### POST-/api/periodical/search_periodical/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + publishedMonth: 7 (number, required) - 出版品月份
+        + publishedYear: 2020 (number, required) - 出版品年份
++ Response 200 (application/json)
+    + Attributes (object)
+        + formPeriodical (periodical) - 出版品標題區塊資訊
+        + queryList (array[chapterInfo]) - 章節名稱及其底下的文章
+
+## 單一章節 [/api/periodical/get_single/chapter]
+必須同時送出出版品ID『periodicalId』和章節ID『chapterId』2 個參數, 才能查詢
+
+### POST-/api/periodical/get_single/chapter [POST]
++ Attributes (object)
+    + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 登入後才能得知道有追蹤什麼主題, 和此篇章節文章是否有被收藏
+    + periodicalId: 0 (number, required) - 出版品 ID
+    + chapterId: 0 (number, required) - 章節 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + chapterInfo - 章節名稱及其底下的文章摘錄列表
+            - Include chapterInfo
+        + currentPost - 此章節的第一篇文章
+            - Include singPostAttr
+            - setChapterTitle: `精選專題` (string, required) - 章節名稱左邊的標註詞
+
+
+# Group 共用 API
+
+## 頁首 [/api/header/]
+包含LOGO、選單、出版品廣告, 在請求時附上使用者 ID, 才能得知會員資訊
+### POST-/api/header [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 如有登入, 才會顯示會員相關選單
++ Response 200 (application/json)
+    + Attributes (object)
+        + topLogo - 桌機/行動版 LOGO
+            + deskTop: `/img/logo.png` (string, required) - 桌機版的 LOGO
+            + mobile: `/img/logo_Horizontal.png` (string, required) - 行動版的 LOGO
+        + mainMenu (array) - 主選單
+            + (object)
+              + title: `趨勢文章` (string, required) - 主選單項目名稱
+              + templateSlug: `event` (string, required) - 板型別名
+              + path: `lecture` (string, required) - 路由參數
+            + (object)
+              + title: `最新文章` (string, required) - 主選單項目名稱
+              + templateSlug: `lates` (string, required) - 路由
+            + (object)
+              + title: `主題分類` (string, required) - 主選單項目名稱
+              + templateSlug: `topics` (string, required) - 路由
+            + (object)
+              + title: `導師講座` (string, required) - 主選單項目名稱
+              + templateSlug: `mentor` (string, required) - 路由
+            + (object)
+              + title: `個人學院` (string, required) - 主選單項目名稱
+              + templateSlug: `self-learning` (string, required) - 路由
+            + (object)
+              + title: `精選專題` (string, required) - 主選單項目名稱
+              + templateSlug: `special-topics` (string, required) - 路由
+            + (object)
+              + title: `影音` (string, required) - 主選單項目名稱
+              + templateSlug: `video-and-podcast` (string, required) - 路由
+            + (object)
+              + title: `個案研究` (string, required) - 主選單項目名稱
+              + templateSlug: `cast-study` (string, required) - 路由
+            + (object)
+              + title: `觀念圖解` (string, required) - 主選單項目名稱
+              + templateSlug: `visual-library` (string, required) - 路由
+            + (object)
+              + title: `雜誌 / 書籍` (string, required) - 主選單項目名稱
+              + templateSlug: `magazine` (string, required) - 路由
+            + (object)
+              + title: `台灣CEO` (string, required) - 主選單項目名稱
+              + templateSlug: `event` (string, required) - 板型別名
+              + path: `lecture` (string, required) - 路由參數
+        + topAd - 最上方出版品廣告區塊
+            + formPeriodicalBg: `/img/LatestPublication.png` (string, required) - 出版品扁長 Banner 圖片
+            + formPeriodical (periodical) - 出版品資訊
+            + templateSlug: `special-topics-id-title` (string, required) - 連結頁面版型
+            + postId: `666` (string, required) - 連結編號
+            + postTitle: `need-to-know-about-the-cloud-in-2021` (string, required) - 連結標題
+            + subscribeLink: `https://hbrshop.cwgv.com.tw/print?_ga=2.112655876.1416143263.1614146182-220332607.1609124418` (string, required) - 我要訂閱的連結
+        + seachBox - 搜尋燈箱裏的列表連結
+            + otherKey(array) - 推薦關鍵字
+                + (object)
+                    + keyName: `台積電` (string, required) - 關鍵字名稱
+                    + link: `http://design.kyart.tw/2021/hbr/html/search.html` (string, required) - 關鍵字連結
+                + (object)
+                    + keyName: `領導力` (string, required) - 關鍵字名稱
+                    + link: `http://design.kyart.tw/2021/hbr/html/search.html` (string, required) - 關鍵字連結
+                + (object)
+                    + keyName: `OKR` (string, required) - 關鍵字名稱
+                    + link: `http://design.kyart.tw/2021/hbr/html/search.html` (string, required) - 關鍵字連結
+            + contentCat(array) - 內容分類
+                + (object)
+                    + title: `最新文章` (string, required) - 連結名稱
+                    + templateSlug: `lates` (string, required) - 連結版型
+                + (object)
+                    + title: `雜誌/書籍` (string, required) - 連結名稱
+                    + templateSlug: `magazine` (string, required) - 連結版型
+                + (object)
+                    + title: `熱門文章` (string, required) - 連結名稱
+                    + templateSlug: `popular` (string, required) - 連結版型
+                + (object)
+                    + title: `影片小首頁` (string, required) - 連結名稱
+                    + templateSlug: `video` (string, required) - 連結版型
+                + (object)
+                    + title: `音頻` (string, required) - 連結名稱
+                    + templateSlug: `podcast` (string, required) - 連結版型
+                + (object)
+                    + title: `個案研究` (string, required) - 連結名稱
+                    + templateSlug: `cast-study` (string, required) - 連結版型
+            + hotTopics(array) - 熱門主題
+                + (object)
+                    + title: `領導` (string, required) - 主題名稱
+                    + enTitle: `leadership` (string, required) - 英文主題名稱
+                + (object)
+                    + title: `創新` (string, required) - 主題名稱
+                    + enTitle: `innovation` (string, required) - 英文主題名稱
+                + (object)
+                    + title: `自我管理` (string, required) - 主題名稱
+                    + enTitle: `self-management` (string, required) - 英文主題名稱
+                + (object)
+                    + title: `溝通` (string, required) - 主題名稱
+                    + enTitle: `communication` (string, required) - 英文主題名稱
+                + (object)
+                    + title: `行銷` (string, required) - 主題名稱
+                    + enTitle: `marketing` (string, required) - 英文主題名稱
+                + (object)
+                    + title: `策略` (string, required) - 主題名稱
+                    + enTitle: `strategy` (string, required) - 英文主題名稱
+                + (object)
+                    + title: `管理員工` (string, required) - 主題名稱
+                    + enTitle: `manage-employees` (string, required) - 英文主題名稱
+            + subscriber(array) - 訂閱用戶限定
+                + (object)
+                    + title: `精選專題` (string, required) - 連結名稱
+                    + templateSlug: `special-topics` (string, required) - 連結版型
+                + (object)
+                    + title: `個人學院` (string, required) - 連結名稱
+                    + templateSlug: `self-learning` (string, required) - 連結版型
+                + (object)
+                    + title: `導師講座` (string, required) - 連結名稱
+                    + templateSlug: `mentor` (string, required) - 連結版型
+                + (object)
+                    + title: `觀念圖解` (string, required) - 連結名稱
+                    + templateSlug: `visual-library` (string, required) - 連結版型
+            + account(array) - 帳號連結
+                + (object)
+                    + title: `個人圖書館` (string, required) - 連結名稱
+                    + link: `http://design.kyart.tw/2021/hbr/html/membersLibrary.html` (string, required) - 連結網址
+                + (object)
+                    + title: `文章主題訂閱` (string, required) - 連結名稱
+                    + link: `http://design.kyart.tw/2021/hbr/html/membersData.html` (string, required) - 連結網址
+                + (object)
+                    + title: `訂閱/訂購查詢` (string, required) - 連結名稱
+                    + link: `http://design.kyart.tw/2021/hbr/html/shopping.html` (string, required) - 連結網址
+                + (object)
+                    + title: `帳號設定` (string, required) - 連結名稱
+                    + link: `http://design.kyart.tw/2021/hbr/html/membersGeneral.html` (string, required) - 連結網址
+            + loginLink: `http://member-t.hbrtaiwan.com/` (string, required) - 登入網址
+            + social(array) - 社群連結
+                + (object)
+                    + title: `facebook` (string, required) - 社群名稱
+                    + link: `https://www.facebook.com/hbrtaiwan` (string, required) - 連結網址
+                + (object)
+                    + title: `line` (string, required) - 社群名稱
+                    + link: `https://line.me/R/ti/p/%40zfc8021l` (string, required) - 連結網址
+                + (object)
+                    + title: `instagram` (string, required) - 社群名稱
+                    + link: `https://www.instagram.com/hbrtaiwan` (string, required) - 連結網址
+                + (object)
+                    + title: `youtube` (string, required) - 社群名稱
+                    + link: `https://www.youtube.com/channel/UCNY32GQOXDAV20ziNZLyXnA` (string, required) - 連結網址
+                + (object)
+                    + title: `linkedin` (string, required) - 社群名稱
+                    + link: `https://tw.linkedin.com/company/hbrtaiwan` (string, required) - 連結網址
+        + platform - 社群平台溝通按鈕
+            - platformIcon: `http://design.kyart.tw/2021/hbr/html/assets/img/svg/advisory.svg` (string, required) - 平台按鈕圖片
+            - lineIcon: `http://design.kyart.tw/2021/hbr/html/assets/img/svg/line2-white.svg` (string, required) - Line 圖片
+            - lineLink: `https://hbrtw.cc/line_official` (string, required) - Line 連結
+            - messengerIcon: `http://design.kyart.tw/2021/hbr/html/assets/img/svg/fb_message.svg` (string, required) - FB 圖片
+            - messengerLink: `https://hbrtw.cc/fb_official` (string, required) - FB 連結
+        + mobileNav(array) - 手機版導航吧
+            - (object)
+                + title: `首頁` (string, required) - 連結名稱
+                + icon: `/img/svg/m-home.svg` (string, required) - svg 圖片連結
+                + link: `/` (string, required) - 連結
+            - (object)
+                + title: `最新文章` (string, required) - 連結名稱
+                + icon: `/img/svg/send.svg` (string, required) - svg 圖片連結
+                + link: `/lates` (string, required) - 連結
+            - (object)
+                + title: `主題分類` (string, required) - 連結名稱
+                + icon: `/img/svg/rec.svg` (string, required) - svg 圖片連結
+                + link: `/topics` (string, required) - 連結
+            - (object)
+                + title: `本期雜誌` (string, required) - 連結名稱
+                + icon: `/img/svg/book.svg` (string, required) - svg 圖片連結
+                + link: `/magazine/HS1905` (string, required) - 連結
+            - (object)
+                + title: `個人專區` (string, required) - 連結名稱
+                + icon: `/img/svg/m-area.svg` (string, required) - svg 圖片連結
+                + link: `https://member-t.hbrtaiwan.com/login` (string, required) - 連結
+
+
+## 頁尾 [/api/footer/]
+包含數位版訂閱上下廣告和 footer 資訊
+### GET-/api/footer/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + footerTop - 上方訂閱資訊
+            + title: `哈佛商業評論` (string, required) - 訂閱標題
+            + highlight: `數位版` (string, required) - 重點字串
+            + imageDesktop: `/img/digit.png` (string, required) - 桌機形象圖片網址
+            + imageMobile: `/img/digitMobile.png` (string, required) - 手機形象圖片網址
+            + background: `/assets/img/digitBg.png` (string, required) - 背景圖片網址
+            + btn: `立刻開始訂購` (string, required) - 按鈕字串
+            + btnUrl: `https://hbrshop.cwgv.com.tw/promotion/?_ga=2.52336041.1212359855.1619506706-1345469421.1612769265` (string, required) - 按鈕連結
+        + footerCenter
+            + footerLogo: `/img/logo_white.png` (string, required) - 頁尾 LOGO
+            + siteCat - 內容分類區塊
+                + title: `內容分類` (string, required) - 標題字串
+                + siteCatList(array) - 內容分類 (全站分類) 連結
+                    + (object)
+                        + title: `最新文章` (string, required) - 標題
+                        + templateSlug: `lates` (string, required) - 連結版型
+                    + (object)
+                        + title: `台灣CEO` (string, required) - 標題
+                        + templateSlug: `taiwan-ceo` (string, required) - 連結版型
+                    + (object)
+                        + title: `熱門文章` (string, required) - 標題
+                        + templateSlug: `popular` (string, required) - 連結版型
+                    + (object)
+                        + title: `職場新手進修` (string, required) - 標題
+                        + templateSlug: `ascend` (string, required) - 連結版型
+                    + (object)
+                        + title: `主題分類` (string, required) - 標題
+                        + templateSlug: `topics` (string, required) - 連結版型
+                    + (object)
+                        + title: `人資專區` (string, required) - 標題
+                        + templateSlug: `human-resource` (string, required) - 連結版型
+                    + (object)
+                        + title: `個案研究` (string, required) - 標題
+                        + templateSlug: `cast-study` (string, required) - 連結版型
+                    + (object)
+                        + title: `導師講座` (string, required) - 標題
+                        + templateSlug: `mentor` (string, required) - 連結版型
+                    + (object)
+                        + title: `觀念圖解` (string, required) - 標題
+                        + templateSlug: `visual-library` (string, required) - 連結版型
+                    + (object)
+                        + title: `個人學院` (string, required) - 標題
+                        + templateSlug: `self-learning` (string, required) - 連結版型
+                    + (object)
+                        + title: `雜誌/特刊/書籍` (string, required) - 標題
+                        + templateSlug: `magazine-and-book` (string, required) - 連結版型
+                    + (object)
+                        + title: `精選專題` (string, required) - 標題
+                        + templateSlug: `special-topics` (string, required) - 連結版型
+            + memberArea - 會員說明中心區塊
+                + title: `會員說明中心` (string, required) - 標題字串
+                + memberAreaList (array) - 會員說明連結
+                    + (object)
+                        + title: `網站(數位版)會員說明` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `紙本訂戶常見問題` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `數位版常見問題` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `電子雜誌常見問題` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `什麼是授課文章購買` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `聯絡我們` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+            + subscriptionArea - 訂閱哈佛商業評論區塊
+                + title: `訂閱哈佛商業評論` (string, required) - 標題字串
+                + subscriptionAreaList (array) - 訂閱相關連結
+                    + (object)
+                        + title: `訂閱數位版` (string, required) - 標題
+                        + url: `https://hbrshop.cwgv.com.tw/digital?_ga=2.3448496.1212359855.1619506706-1345469421.1612769265` (string, required) - 連結
+                    + (object)
+                        + title: `授課文章購買` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `訂閱紙本雜誌` (string, required) - 標題
+                        + url: `https://hbrshop.cwgv.com.tw/print?_ga=2.3448496.1212359855.1619506706-1345469421.1612769265` (string, required) - 連結
+                    + (object)
+                        + title: `企業組織合作方案` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `訂閱電子雜誌` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `大專院校合作方案` (string, required) - 標題
+                        + url: `#` (string, required) - 連結
+                    + (object)
+                        + title: `海外訂閱` (string, required) - 標題
+                        + url: `https://hbrshop.cwgv.com.tw/print?_ga=2.10990004.1212359855.1619506706-1345469421.1612769265` (string, required) - 連結
+            + aboutCwgvArea - 關於遠見天下區塊
+                + title: `關於我們` (string, required) - 標題字串
+                + aboutCwgvAreaLogo: `/img/cause.png` (string, required) - 遠見事業群 LOGO
+                + aboutCwgvAreaList (array) - 關於遠見天下連結
+                    + (object)
+                        + title: `關於我們` (string, required) - 標題
+                        + templateSlug: `lates` (string, required) - 連結版型
+                    + (object)
+                        + title: `著作權聲明` (string, required) - 標題
+                        + templateSlug: `lates` (string, required) - 連結版型
+                    + (object)
+                        + title: `隱私權政策` (string, required) - 標題
+                        + templateSlug: `lates` (string, required) - 連結版型
+                    + (object)
+                        + title: `個資保護聲明` (string, required) - 標題
+                        + templateSlug: `lates` (string, required) - 連結版型
+                    + (object)
+                        + title: `讀者信箱` (string, required) - 標題
+                        + templateSlug: `lates` (string, required) - 連結版型
+                    + (object)
+                        + title: `廣告合作` (string, required) - 標題
+                        + templateSlug: `lates` (string, required) - 連結版型
+                + copyRight - 版權聲明字串
+                    + title: `哈佛商業評論全球繁體中文版` (string, required)
+                    + years: `COPYRIGHT@1999~2021` (string, required) 
+                    + company: `遠見天下文化出版股份有限公司` (string, required)
+                    + text: `ALL RIGHTS RESERVED` (string, required) 
+                + contact - 聯絡資訊字串
+                    + title: `讀者服務專線` (string, required) - 標題
+                    + phone: `電話：+886 2 2662 0012` (string, required) - 聯絡電話字串
+                    + phoneLink: `0226620012` (string, required) - 聯絡電話連結
+                    + time: `時間：週一~周五9:00~12:30;13:30~17:00` (string, required) - 營業時間
+                    + mail: `hbrtaiwan@cwgv.com.tw` (string, required) - 信箱
+            + socialArea - 社群區塊
+                + subscription - 訂閱電子報統一入口
+                    + backbround: `/img/footerSbscription.png` (string, required) - 圖片網址
+                    + url: `http://design.kyart.tw/2021/hbr/html/newsletter.html` (string, required) - 連結
+                + platform (object) - 社群平台連結
+                      + facebook: `https://www.facebook.com/hbrtaiwan` (string, required) - 連結
+                      + line: `https://line.me/R/ti/p/%40zfc8021l` (string, required) - 連結
+                      + instagram: `https://www.instagram.com/hbrtaiwan` (string, required) - 連結
+                      + youtube: `https://www.youtube.com/channel/UCNY32GQOXDAV20ziNZLyXnA` (string, required) - 連結
+                      + linkedin: `https://tw.linkedin.com/company/hbrtaiwan` (string, required) - 連結
+        + footerBottom - 下方訂閱資訊
+            + loginLogo: `/assets/img/logo.png` (string, required) - 登入 LOGO
+            + loginTitle: `會員登入免費看更多` (string, required) - 登入標題包含數位版訂閱上下廣告和 footer 資訊
+            + subscriptionDes: `訂閱數位版首頁暢讀` (string, required) - 訂閱文字
+            + subscriptionPrice: 60 (number, required) - 訂閱價位
+
+
+## 文章列表 [/api/post/get_list/]
+預設顯示最新的 3 篇文章<br>
+如果權限為『訪客』
+```json
+// Request, 一樣會請求, 但是 userId 為空值
+{
+   "userId": ""
+}
+```
+```json
+// Response
+// 文章列表內的簡要文章資訊: favoriteTo (被收藏至), 這類會員僅有的, 都回傳文件預設值
+{
+  "queryList":{
+    "favoriteTo": [
+      {
+        "name": "未分類",
+        "id": 0
+      }
+    ]
+  }
+}
+```
+### POST-/api/post/get_list/ [POST]
++ Request (application/json)
+    + Attributes (listFormat)
+        + sortBy: `latest` (string, optional) - 排列依據預設為 `新→舊 latest`, `舊→新 oldest`, `關聯性 related`
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 藉此得知列表內的文章收藏至哪個資料夾
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[slideSingPostAttr])
+        + totalElements: 1 (number) - 回傳查詢的文章總共有幾篇
+        + totalPages: 0 (number) - 回傳查詢的文章總共有幾頁
+
+## 熱門文章列表 [/api/post/get_list_popular/]
+### POST-/api/post/get_list_popular/ [POST]
++ Request (application/json)
+    + Attributes (listFormat)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 藉此得知列表內的文章收藏至哪個資料夾
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[slideSingPostAttr])
+        + totalElements: 1 (number) - 回傳查詢的文章總共有幾篇
+        + totalPages: 0 (number) - 回傳查詢的文章總共有幾頁
+
+## 單一文章 [/api/post/get_sing/{postId}]
+1. jsonId
+每個頁面的結構化資料都不同, 所以此 JSON 僅供參考
+2. headMeta.robots
+裡面特別要說明的是 `robots`, 可回傳四種字串:
+
+| 使用情況          | 納入檢索(Crawl)外部連結的評分               | 不納入檢索(Crawl)外部連結的評分                 |
+|---------------|----------------------------------|-------------------------------------|
+| 要索引<br>(index)    | 要執行SEO操作的頁面 :<br>index, follow    | 評論頁面、論壇留言區 :<br>index, nofollow      |
+| 不要索引<br>(noindex) | 隱私權政策、不重要的頁面 :<br>noindex, follow | 購物車、結帳頁面、後台頁面 :<br>noindex, nofollow |
+
+3. headMeta.canonical
+如果有重複的頁面, 可以和 google 說標準網址為何; 即使沒有重複也可以填現在自己的網址
+
+<img src="https://i.imgur.com/fPLalYG.jpg" width="100%"/>
+
+參考至 [SEO canonical 終極教學指南：利用”rel canonical”解決重複內容、跨平台轉載困擾](https://frankchiu.io/seo-canonical-tags/)
+
+4. 如果被阻擋 ( 已達閱讀上限 / 請加入會員 ), 後端需提供<font color="#f00">被刪減過後的文章內容</font>
+```json
+// Response
+{
+  "postContent": "我是blockquote有些職場建言會告訴你：跟著熱情走..."
+}
+```
+### POST-/api/post/get_sing/{postId} [POST]
++ Parameters
+    + postId: 0 (number, required) - 文章 ID
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 登入後觀看文章都會帶此參數
++ Response 200 (application/json)
+    + Attributes (singPostAttr)
+        + recommendStudyList (array[recommendStudyInfo]) - 推薦學習文章列表, 依據該使用者顯示適合他的文章類型, 預設顯示2篇
+        + buyBox (object) - 購買資訊
+            - Include buyBox
+        + jsonId (object) - jsonId 範例
+            - Include jsonId
+        + headMeta - HTML 相關標籤
+            - title: `醫院善用人工智慧對抗新冠肺炎` (string,required) - `<title>`
+            - robots: `index, follow` (string,required) - `<meta name="robots" content="index, follow">`, 總共有四種值
+            - description: `我們的經濟和醫療照護系統的設計，是要處理線性、遞增的需求，但新冠病毒是以指數速度增加。如果不迅速地大規模採用數位運作模式，全國的醫療系統就無法跟上這種爆炸性的需求。因此，必須加快虛擬和人工智慧工具的採用和擴展。` (string,required) - `<meta name="description" content="">`
+            - ogTitle: `醫院善用人工智慧對抗新冠肺炎` (string,required) - `<meta property="og:title" content="">`
+            - ogDescription: `我們的經濟和醫療照護系統的設計，是要處理線性、遞增的需求，但新冠病毒是以指數速度增加。如果不迅速地大規模採用數位運作模式，全國的醫療系統就無法跟上這種爆炸性的需求。因此，必須加快虛擬和人工智慧工具的採用和擴展。` (string,required) - `<meta property="og:description" content="">`      
+            - ogUrl: `http://hbr.kyart.tw/article/7107/how-hospitals-are-using-ai-to-battle-covid-19` (string,required) - `<meta property="og:url" content="">`
+            - ogImage: `https://imgs.cwgv.com.tw/test/hbr_articles/07/7107/preview/7107.jpg` (string,required) - `<meta property="og:title" content="">`
+            - ogType: `article` (string,required) - `<meta property="og:type" content="">`
+            - canonical: `https://imgs.cwgv.com.tw/test/hbr_articles/07/7107/preview/7107.jpg` (string,required) - `<link rel=canonical href="" />`
+            
+
+## 單一廣編稿文章 [/api/post/get_sing_sponsor/{postId}]
+### GET-/api/post/get_sing_sponsor/{postId} [GET]
++ Parameters
+    + postId: 0 (number, required) - 文章 ID
++ Response 200 (application/json)
+    + Attributes (singPostAttrSponsor)
+
+## 儲存觀看文章進度 [/api/post/watch/]
+*僅有在會員登入時, 才有辦法儲存觀看進度
+觀看單一文章到一半時, 離開後會採用這個 API 回傳觀看進度
+### POST-/api/post/watch/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, required) - 使用者 ID
+        + postId: 0 (number, required) - 被觀看的一般文章 ID
+        + readHeight: 0 (number, required) - 觀看文章的中斷的長度
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: OK (string, required) - 表示已儲存成功
+
+## 查詢廣告板位 [/api/publisher_tag/{templateSlug}]
+### GET-/api/publisher_tag/{templateSlug} [GET]
+輸入版型 ID, 即可回傳該版型顯示的 GPT 嵌入代碼, 一共有以下9種不同的廣告: 
+1. top
+2. index
+3. list
+4. menubelow
+5. topicbelow
+6. articleright1
+7. articleright2
+8. list_video
+9. list_audio
++ Parameters
+    + templateSlug: `article` (string, required) - 版型別名
++ Response 200 (application/json)
+    + Attributes (object)
+        + gptEventMap (array) - 此版型所設置的廣告
+            + (object)
+                + gptEventName: `top` (string, required) - 此廣告的名稱
+                + gptDefineSlotDeskTop - 桌機版的廣告設定
+                    - Include gptDefineSlot
+                + gptDefineSlotMobile - 行動版的廣告設定
+                    - Include gptDefineSlot
+            + (object)
+                + gptEventName: `index` (string, required) - 此廣告的名稱
+                + gptDefineSlotDeskTop - 桌機版的廣告設定
+                    - Include gptDefineSlot
+                + gptDefineSlotMobile - 行動版的廣告設定
+                    - Include gptDefineSlot
+
+## 所有版型資訊 [/api/template_map/]
+可使用此 API 查詢對照版型名稱跟 ID
+### GET-/api/template_map/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + template_map(array) - 版型 ID / 名稱 / 別名
+            + (object)
+                + templateId: 0 (number, required) - 版型 ID
+                + templateName: 首頁 (string, required) - 版型名稱
+                + templateSlug: `index` (string, required) - 版型別名
+            + (object)
+                + templateId: 1 (number, required) - 版型 ID
+                + templateName: 主題分類 (string, required) - 版型名稱
+                + templateSlug: `topics` (string, required) - 版型別名
+            + (object)
+                + templateId: 2 (number, required) - 版型 IDd
+                + templateName: 影音 (string, required) - 版型名稱
+                + templateSlug: `video-and-podcast` (string, required) - 版型別名
+            + (object)
+                + templateId: 3 (number, required) - 版型 ID
+                + templateName: 雜誌 (string, required) - 版型名稱
+                + templateSlug: `magazine` (string, required) - 版型別名
+            + (object)
+                + templateId: 4 (number, required) - 版型 ID
+                + templateName: 精選專題 (string, required) - 版型名稱
+                + templateSlug: `special-topics` (string, required) - 版型別名
+            + (object)
+                + templateId: 5 (number, required) - 版型 ID
+                + templateName: 時事列表 (string, required) - 版型名稱
+                + templateSlug: `event` (string, required) - 版型別名
+            + (object)
+                + templateId: 6 (number, required) - 版型 ID
+                + templateName: 最新文章列表 (string, required) - 版型名稱
+                + templateSlug: `lates` (string, required) - 版型別名
+            + (object)
+                + templateId: 7 (number, required) - 版型 ID
+                + templateName: 熱門文章列表 (string, required) - 版型名稱
+                + templateSlug: `popular` (string, required) - 版型別名
+            + (object)
+                + templateId: 8 (number, required) - 版型 ID
+                + templateName: 個人學院列表 (string, required) - 版型名稱
+                + templateSlug: `self-learning` (string, required) - 版型別名
+            + (object)
+                + templateId: 9 (number, required) - 版型 ID
+                + templateName: 作者文章列表 (string, required) - 版型名稱
+                + templateSlug: `author-id` (string, required) - 版型別名
+            + (object)
+                + templateId: 10 (number, required) - 版型 ID
+                + templateName: 主題分類列表 (string, required) - 版型名稱
+                + templateSlug: `topics-id` (string, required) - 版型別名
+            + (object)
+                + templateId: 11 (number, required) - 版型 ID
+                + templateName: 導師講座列表 (string, required) - 版型名稱
+                + templateSlug: `mentor` (string, required) - 版型別名
+            + (object)
+                + templateId: 12 (number, required) - 版型 IDd
+                + templateName: 影片列表 (string, required) - 版型名稱
+                + templateSlug: `video` (string, required) - 版型別名
+            + (object)
+                + templateId: 13 (number, required) - 版型 ID
+                + templateName: 音頻列表 (string, required) - 版型名稱
+                + templateSlug: `podcast` (string, required) - 版型別名
+            + (object)
+                + templateId: 14 (number, required) - 版型 ID
+                + templateName: 個案研究列表 (string, required) - 版型名稱
+                + templateSlug: `cast-study` (string, required) - 版型別名
+            + (object)
+                + templateId: 15 (number, required) - 版型 ID
+                + templateName: 觀念圖解列表 (string, required) - 版型名稱
+                + templateSlug: `visual-library` (string, required) - 版型別名
+            + (object)
+                + templateId: 16 (number, required) - 版型 ID
+                + templateName: 雜誌目錄列表 (string, required) - 版型名稱
+                + templateSlug: `magazine-contents` (string, required) - 版型別名
+            + (object)
+                + templateId: 17 (number, required) - 版型 ID
+                + templateName: 單一數位文章 (string, required) - 版型名稱
+                + templateSlug: `article-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 18 (number, required) - 版型 ID
+                + templateName: 單一導師講座 (string, required) - 版型名稱
+                + templateSlug: `mentor-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 19 (number, required) - 版型 ID
+                + templateName: 單一精選專題 (string, required) - 版型名稱
+                + templateSlug: `special-topics-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 20 (number, required) - 版型 ID
+                + templateName: 單一影片 (string, required) - 版型名稱
+                + templateSlug: `video-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 21 (number, required) - 版型 ID
+                + templateName: 單一音頻 (string, required) - 版型名稱
+                + templateSlug: `podcast-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 22 (number, required) - 版型 ID
+                + templateName: 單一個案研究 (string, required) - 版型名稱
+                + templateSlug: `cast-study-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 23 (number, required) - 版型 ID
+                + templateName: 單一本土長個案 (string, required) - 版型名稱
+                + templateSlug: `case-study-tmcc-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 24 (number, required) - 版型 ID
+                + templateName: 單一觀念圖解 (string, required) - 版型名稱
+                + templateSlug: `visual-library-id-title` (string, required) - 版型別名
+            + (object)
+                + templateId: 25 (number, required) - 版型 ID
+                + templateName: 單一個人學院 (string, required) - 版型名稱
+                + templateSlug: `self-learning-lesson-id-title` (string, required) - 版型別名
+
+## 所有使用者權限資訊 [/api/role/role_list/]
+
+可使用此 API 查詢使用者權限名稱 `roleName` 和 權限 ID `roleId`
+
+原圖說明:
+<img src="https://i.imgur.com/Y6tDs3a.jpg" width="100%"/>
+
+表格 ID 對照
+| **使用者權限** | **代號** | **說明** |
+|-----------|-----------|-----------|
+| 訪客    | visitor   | 未登入，僅能瀏覽免費開放的文章<br>**<font color=red>尚未有實作範例</font>** |
+| 一般會員  | general   | 1. 未付費<br>2. 每個月可免費瀏覽三篇文章<br>**<font color=red>不包含導師講座、個人學院、觀念圖解</font>**<br>3. 當月此三篇文章可重複瀏覽 |
+| 企業會員  | business  | 1. 有專屬的企業課程<br>2. 全站皆可瀏覽 |
+| 訂閱會員  | subscribe | 1. 付費會員<br>2. 全站皆可瀏覽 |
+| 試閱會員  | trial     | 全站皆可瀏覽 |
+| 教師會員  | education | 訂閱、購買文章會有優惠<br>**<font color=red>此權限的瀏覽權限為何?</font>** |
+
+### GET-/api/role/role_list/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + roleList (array) - 權限列表
+            + (object)
+                + roleName: `訪客` (string, required) - 權限名稱
+                + roleId: `visitor` (string, required) - 權限 ID
+            + (object)
+                + roleName: `一般會員` (string, required) - 權限名稱
+                + roleId: `general` (string, required) - 權限 ID
+            + (object)
+                + roleName: `企業會員` (string, required) - 權限名稱
+                + roleId: `business` (string, required) - 權限 ID
+            + (object)
+                + roleName: `訂閱會員` (string, required) - 權限名稱
+                + roleId: `subscribe` (string, required) - 權限 ID
+            + (object)
+                + roleName: `試閱會員` (string, required) - 權限名稱
+                + roleId: `trial` (string, required) - 權限 ID
+            + (object)
+                + roleName: `教師會員` (string, required) - 權限名稱
+                + roleId: `education` (string, required) - 權限 ID
+
+## 使用者登入 [/api/role/login/]
+### POST-/api/role/login/ [POST]
++ Request (application/json)
+    + Attributes (userLoginRequest)
++ Response 200 (application/json)
+    + Attributes (object)
+        +  userLoginRespond(userLoginRespond)
+
+## 閱讀限制 [/api/read_limit/]
+回傳目前使用者的閱讀限制
+- 訪客回傳
+```json
+{
+  "free": [112,846,992],
+  "currentMonth": null
+}
+```
+ - 一般會員(未付費)
+```json
+{
+  "free": [112,846,992],
+  "currentMonth": [857]
+}
+```
+ - 無限制會員
+```json
+{
+  "free": null,
+  "currentMonth": null
+}
+```
+### POST-/api/read_limit/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, required) - 使用者 ID, 如果是 visitor, 可填""
++ Response 200 (application/json)
+    + Attributes (object)
+        + readLimit
+            + free (array) - 可免費閱讀文章
+                + 1689 (number, optional)
+                + 6437 (number, optional)
+                + 4460 (number, optional)
+                + 8008 (number, optional)
+                + 992  (number, optional) 
+            + currentMonth (array) - 當月已觀看文章
+                + 111 (number, optional)
+
+
+
+# Group 影音
+
+影音專區有分成`主分類 vMainCatId`和`次分類 vSubCatId`, 第一欄 5 項為主分類, 第二欄以下共 57 項為次分類
+
+|**<font size=2>領導</font>**|**<font size=2>創新與技術</font>**|**<font size=2>管理</font>**|**<font size=2>策略</font>**|**<font size=2>行銷與設計</font>**|
+|---|---|---|---|---|
+|非正式領導|創意|人力資源管理|全球策略|銷售|
+|領導|創新|人才管理|成長策略|銷售與行銷|
+|領導之人員管理|資訊科技|危機管理|策略|行銷|
+|領導交班|資訊與技術|風險管理|策略思維|行銷與銷售|
+|領導團隊|技術|財務管理|策略執行|廣告行銷與公關|
+|培養領導力|技術與營運|組織管理|策略規畫|銷售與行銷|
+|培育員工|資訊|跨文化管理|競爭策略|產品開發|
+| |研發|管理不確定性|決策|設計|
+| |科技|管理員工| |市場研究|
+| |破壞式創新|營運管理| |打造品牌|
+| |數據資料|變革管理| |社群平台|
+| | |專案管理| |零售與消費性商品|
+| | |組織文化| | |
+| | |組織重整| | |
+| | |組織發展| | |
+| | |組織結構| | |
+| | |工作場所| | |
+| | |公司治理| | |
+| | |平衡計分卡| | |
+
+## 最新影音列表 [/api/media/vide_list/]
+預設顯示 16 篇最新影音, 藉由請求 `count(一頁顯示幾篇文章)` 和 `page(顯示第幾頁)` ,來做載入更多的查詢
+### POST-/api/media/vide_list/ [POST]
++ Request (application/json)
+    + Attributes (listFormat)
+        + sortBy: `latest` (string, optional) - 排列依據預設為 `新→舊 latest`, `舊→新 oldest`, `關聯性 related`
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 藉此得知列表內的文章收藏至哪個資料夾
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[slideSingVideoAttr]) - 預設 16 篇影音文章簡要資訊
+        + totalElements: 1 (number) - 回傳查詢的影片文章總共有幾篇
+        + totalPages: 0 (number) - 回傳查詢的影片文章總共有幾頁
+
+## 熱門影音列表 [/api/media/vide_hot_list/]
+預設顯示 9 篇熱門影音, 藉由請求 `count(一頁顯示幾篇文章)` 和 `page(顯示第幾頁)` ,來做載入更多的查詢
+### POST-/api/media/vide_hot_list/ [POST]
++ Request (application/json)
+    + Attributes (listFormat)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 藉此得知列表內的文章收藏至哪個資料夾
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[slideSingVideoAttr]) - 預設 16 篇影音文章簡要資訊
+        + totalElements: 1 (number) - 回傳查詢的影片文章總共有幾篇
+        + totalPages: 0 (number) - 回傳查詢的影片文章總共有幾頁
+
+## 搜尋影音主分類列表 [/api/media/video_mainCat/]
+可查詢所有的影音主分類名稱和 ID
+### GET-/api/media/video_mainCat/ [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + vMainCatMap (array) - 列出所有影音主分類列表
+            + (object)
+                - vMainCatName: `領導` (string, required) - 影音主分類名稱
+                - vMainCatId: 0 (number, required) - 影音主分類 ID
+            + (object)
+                - vMainCatName: `創新與技術` (string, required) - 影音主分類名稱
+                - vMainCatId: 1 (number, required) - 影音主分類 ID
+            + (object)
+                - vMainCatName: `管理` (string, required) - 影音主分類名稱
+                - vMainCatId: 2 (number, required) - 影音主分類 ID
+            + (object)
+                - vMainCatName: `策略` (string, required) - 影音主分類名稱
+                - vMainCatId: 3 (number, required) - 影音主分類 ID
+            + (object)
+                - vMainCatName: `行銷與設計` (string, required) - 影音主分類名稱
+                - vMainCatId: 4 (number, required) - 影音主分類 ID
+
+## 搜尋影音次分類列表 [/api/media/video_subCat/{vMainCatId}]
+### GET-/api/media/video_subCat/{vMainCatId} [GET]
+依據此`影音主分類ID vMainCatId `查詢底下的次分類名稱和 ID
++ Parameters
+    + vMainCatId: 0 (number, required) - 影音主分類 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + vSubCatMap (array) - 列出次分類列表
+            + (object)
+                - vSubCatName: `非正式領導` (string, required) - 影音次分類名稱
+                - vSubCatId: 21 (number, required) - 影音次分類 ID
+            + (object)
+                - vSubCatName: `領導` (string, required) - 影音次分類名稱
+                - vSubCatId: 22 (number, required) - 影音次分類 ID
+            + (object)
+                - vSubCatName: `領導之人員管理` (string, required) - 影音次分類名稱
+                - vSubCatId: 23 (number, required) - 影音次分類 ID
+            + (object)
+                - vSubCatName: `領導交班` (string, required) - 影音次分類名稱
+                - vSubCatId: 24 (number, required) - 影音次分類 ID
+            + (object)
+                - vSubCatName: `領導團隊` (string, required) - 影音次分類名稱
+                - vSubCatId: 25 (number, required) - 影音次分類 ID
+            + (object)
+                - vSubCatName: `培養領導力` (string, required) - 影音次分類名稱
+                - vSubCatId: 26 (number, required) - 影音次分類 ID
+            + (object)
+                - vSubCatName: `培育員工` (string, required) - 影音次分類名稱
+                - vSubCatId: 27 (number, required) - 影音次分類 ID
+
+## 分類搜尋影音列表 [/api/media/vide_cat_search_list/]
+藉由同時請求`vMainCatId (影音主分類)`和`vSubCatId (影音次分類)`來回傳影片列表
+### POST-/api/media/vide_cat_search_list/ [POST]
++ Request (application/json)
+    + Attributes (listFormat)
+        + sortBy: `latest` (string, optional) - 排列依據預設為 `新→舊 latest`, `舊→新 oldest`, `關聯性 related`
+        + count: 16 (number, optional) - 文章數量, 預設為16篇
+        + page: 0 (number, optional) - 文章頁數, 預設為第1頁
+        + vMainCatId: 9 (number,required) - 影音主分類 ID
+        + vSubCatId: 76 (number,required) - 影音次分類 ID
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 藉此得知列表內的文章收藏至哪個資料夾
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array[slideSingVideoAttr]) - 預設 16 篇影音文章簡要資訊
+        + totalElements: 1 (number) - 回傳查詢的影片文章總共有幾篇
+        + totalPages: 0 (number) - 回傳查詢的影片文章總共有幾頁
+
+## 單一影音文章 [/api/media/get_sing_video/{postId}]
+影音文章內容: 包含影片簡要資訊、中文逐自稿、英文逐字稿
+### POST-/api/media/get_sing_video/{postId} [POST]
++ Parameters
+    + postId: 0 (number, required) - 文章 ID
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 登入後觀看文章都會帶此參數
++ Response 200 (application/json)
+    + Attributes (singVideoAttr)
+        + recommendVideoGrid (array[slideSingVideoAttr]) - 推薦影片, 依據該使用者顯示適合他的文章類型, 預設顯示9篇熱門影片
+        + videoConfig
+            - Include videoConfig
+
+## 播放影音 [/api/media/url/]
+template(版型資訊)是歸類在『影片』和『音頻』的文章, 使用此 API 可取得影片的 URL \
+*目前是設定為會員才能播放影片
+如果使用其它版型, 則會回傳空值"" \
+如果上一次回傳的觀看進度>=片長, 則回傳0, 讓使用者重新開始看
+### POST-/api/media/url/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, required) - 使用者 ID
+        + postId: 0 (number, required) - 文章 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + playbackUrl: `http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4` (string, required) - 影片連結
+        + time: 0 (number, required) - 上一次觀看的時刻, 單位為『毫秒』
+
+## 儲存播放影音進度 [/api/media/watch/]
+觀看影片到一半, 使播放器關閉後, 會採用這個 API 回傳觀看紀錄
+### POST-/api/media/watch/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, required) - 使用者 ID
+        + postId: 0 (number, required) - 被觀看的影音文章 ID
+        + time: 0 (number, required) - 觀看的中斷的時刻, 單位為『毫秒』
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `OK` (string, required) - 表示已儲存成功
+
+
+# Group 購物車
+## 購物車列表 [/api/Cart/get_item]
+請求購物車內的商品列表
+### POST-/api/Cart/get_item [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 藉此得知此會員購買之商品
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array) - 預設 16 篇影音文章簡要資訊
+            + (object)
+                + postId: 666 (number, required) - 單一文章 ID
+                + title: `利用「黑客松」激發新構想` (string, required) - 單一文章中文標題
+                + enTitle: `aaaaaa-single-page` (string, required) - 單一文章英文標題
+                + featuredImg: `https://cdn11.bigcommerce.com/s-yneuaokjib/images/stencil/original/attribute_rule_images/125487_source_1592657663.png` (string, required) - 文章主圖
+                + template - 版型資訊
+                    - Include template
+                + quantity: 5 (number, required) - 購買數量
+                + price: 500 (number, required) - 售價, 單位為新台幣
+            + (object)
+                + postId: 777 (number, required) - 單一文章 ID
+                + title: `合力終結棘手問題` (string, required) - 單一文章中文標題
+                + enTitle: `bbb-single-page` (string, required) - 單一文章英文標題
+                + featuredImg: `https://cdn11.bigcommerce.com/s-yneuaokjib/images/stencil/original/attribute_rule_images/89826_source_1573204195.png` (string, required) - 文章主圖
+                + template - 版型資訊
+                    - Include template
+                + quantity: 2 (number, required) - 購買數量
+                + price: 222 (number, required) - 售價, 單位為新台幣
+            + (object)
+                + postId: 888 (number, required) - 單一文章 ID
+                + title: `消失的商業秘訣` (string, required) - 單一文章中文標題
+                + enTitle: `cccc-single-page` (string, required) - 單一文章英文標題
+                + featuredImg: `https://cdn11.bigcommerce.com/s-yneuaokjib/images/stencil/original/attribute_rule_images/129059_source_1609317872.png` (string, required) - 文章主圖
+                + template - 版型資訊
+                    - Include template
+                + quantity: 3 (number, required) - 購買數量
+                + price: 333 (number, required) - 售價, 單位為新台幣
+            + (object)
+                + postId: 999 (number, required) - 單一文章 ID
+                + title: `企業的董事會成員常說，執行長接任計畫是首要任務，但上市公司董事很少將那項計畫付諸實現` (string, required) - 單一文章中文標題
+                + enTitle: `ddd-single-page` (string, required) - 單一文章英文標題
+                + featuredImg: `https://cdn11.bigcommerce.com/s-yneuaokjib/images/stencil/original/attribute_rule_images/129024_source_1601452022.png` (string, required) - 文章主圖
+                + template - 版型資訊
+                    - Include template
+                + quantity: 4 (number, required) - 購買數量
+                + price: 44 (number, required) - 售價, 單位為新台幣
+            + (object)
+                + postId: 101010 (number, required) - 單一文章 ID
+                + title: `腦力匯集：因為腦力激盪沒有效` (string, required) - 單一文章中文標題
+                + enTitle: `eeee-single-pag` (string, required) - 單一文章英文標題
+                + featuredImg: `https://cdn11.bigcommerce.com/s-yneuaokjib/images/stencil/original/attribute_rule_images/127065_source_1604997710.png` (string, required) - 文章主圖
+                + template - 版型資訊
+                    - Include template
+                + quantity: 5 (number, required) - 購買數量
+                + price: 500 (number, required) - 售價, 單位為新台幣
+        + pieces: 5 (number, required) - 購物車內一共有幾筆商品
+        + total: 1355 (number, required) - 金額總計
+            
+
+
+# Group 會員個人資訊
+## 收藏列表 [/api/folder/list/]
+### POST-/api/folder/list/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + later: false (boolean, required) - 稍後閱讀是否被勾選
+        + uncatagorized: false (boolean, required) - 未分類是否被勾選
+        + saveBoxList (array) - 預設 16 篇影音文章簡要資訊
+            + (object)
+                + folderName: `測試用資料夾一` (string, required) - 資料夾名稱
+                + folderId: 0 (number, required) - 資料夾 ID
+                + folderCheck: false (boolean, required) - 資料夾是否被勾選
+            + (object)
+                + folderName: `測試用資料夾二` (string, required) - 資料夾名稱
+                + folderId: 0 (number, required) - 資料夾 ID
+                + folderCheck: true (boolean, required) - 資料夾是否被勾選
+            + (object)
+                + folderName: `測試用資料夾三` (string, required) - 資料夾名稱
+                + folderId: 0 (number, required) - 資料夾 ID
+                + folderCheck: false (boolean, required) - 資料夾是否被勾選
+
+## 價位資訊 [/api/price/persional]
+### POST-/api/price/persional/ [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + buyBox (object) - 購買資訊
+            - Include buyBox
+
+        
+# Group Mockup JSON
+以下 API 為`假資料`, 供前端先行串接使用, 非正式使用
+
+
+
+## 結構化資料 [/api/post/jsonld]
+### GET-/api/post/jsonld [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + jsonId (object) - jsonId 範例
+            - Include jsonId
+
+
+## 精選專題選單 [/api/choice/title_slick]
+### GET-/api/choice/title_slick [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + titlePrefix: `精選專題` (string, required)
+        + titleName: `領導之人員管理` (string, required)
+        + queryList (array)
+            + (object)
+                + title: `領導人不該有的五種施壓行為` (string, required)
+                + order: 1 (number, required)
+                + postId: 2941 (number, required)
+            + (object)
+                + title: `以史為鏡，傑出領導人管理焦慮有一套` (string, required)
+                + order: 2 (number, required)
+                + postId: 2942 (number, required)
+            + (object)
+                + title: `疫後七大公共衛生挑戰` (string, required)
+                + order: 3 (number, required)
+                + postId: 2943 (number, required)
+            + (object)
+                + title: `人們沒有找到一個符合他們天生才能、可讓他們內心充滿喜悅的理想工作，這樣的建言可能會帶來傷` (string, required)
+                + order: 4 (number, required)
+                + postId: 2944 (number, required)
+            + (object)
+                + title: `與者幾乎沒能取得共識。請五個高階主管說出攸關這些計畫成` (string, required)
+                + order: 5 (number, required)
+                + postId: 2945 (number, required)
+
+
+## 單一文章資料 A [/api/post/get_sing_f/0]
+### GET-/api/post/get_sing_f/{postId} [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        - postType:`widely` - 可分為 widely / paper / digit
+        - postId: 0 (number, required) - 單一文章 ID
+        - title: `領導人不在意細節，你該怎麼辦?` (string, required) - 單一文章中文標題  
+        - enTitle: `A lacus vestibulum sed arcu non odio` (string, required) - 單一文章英文標題  
+        - description: `職場常見的一個現象是，領導人擁有創意十足想，但是並不太了解營運或執行。這類領導人沒興趣聽取行動方案成功所需要的條件。` - (string, required) - 文章引言
+        - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+        - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+        - formPeriodical - 出版品資訊
+            - Include periodical
+        - template - 版型資訊
+            - Include template
+        - topicInfo - 分類主題資訊
+            - Include topicInfo
+        - favoriteTo (array[favoriteFolder]) - 被收藏至
+        - author (array[singAuthorInfo]) - 作者資訊
+        - breadCrumbs - 麵包屑資訊
+            - rank01
+                - title: `數位版文章` (string, optional) - 麵包屑第二順位名稱, 可填""
+                - link: `/blog_list` (string, optional) - 麵包屑第二順位連結, 可填""
+            - rank02
+                - title: `領導人不在意細節，你該怎麼辦?` (string, optional) - 麵包屑第三順位名稱, 可填""
+                - link: `/article_content_AR0009644` (string, optional) - 麵包屑第三順位連結, 可填""
+            - rank03
+                - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+                - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+        - subTitle: `有領導力 · 更有管理力` (string, optional) - 副標題, 可填""
+        - relatedTopic (array[topicInfo]) - 相關主題分類
+        - featuredImgCaption: `良好溝通的兩個最基本的要素，就是傾聽與提問。` (string, optional) - 主圖圖說
+        - postContent: `<blockquote> 我是blockquote有些職場建言會告訴你：跟著熱情走。但如果人們沒有找到一個符合他們天生才能、可讓他們內心充滿喜悅的理想工作，這樣的建言可能會帶來傷害，何況熱情可能維持不久。 </blockquote><p>Risus viverra adipiscing at in tellus integer feugiat scelerisque varius. Nisi est sit amet facilisis magna etiam tempor. Aliquam faucibus purus in massa tempor nec feugiat nisl pretium. Justo donec enim diam vulputate ut pharetra sit amet aliquam. Pellentesque dignissim enim sit amet venenatis urna cursus. Euismod elementum nisi quis eleifend quam adipiscing vitae. Eu turpis egestas pretium aenean pharetra magna. Cras semper auctor neque vitae tempus quam. Urna duis convallis convallis tellus id interdum velit laoreet. Et netus et malesuada fames ac turpis egestas. Nec feugiat nisl pretium fusce id velit ut tortor. Sed euismod nisi porta lorem mollis aliquam ut porttitor. In hac habitasse platea dictumst quisque sagittis purus sit.In nulla posuere sollicitudin aliquam ultrices. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Nisl tincidunt eget nullam non nisi est sit amet. Pellentesque nec nam aliquam sem et tortor. Amet mattis vulputate enim nulla aliquet porttitor. Vulputate enim nulla aliquet porttitor lacus. Leo vel fringilla est ullamcorper eget nulla facilisi etiam. Nunc sed blandit libero volutpat sed cras. Enim ut sem viverra aliquet. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Sed vulputate odio ut enim blandit volutpat. Sapien pellentesque habitant morbi tristique senectus et netus.Phasellus faucibus scelerisque eleifend donec. Eget aliquet nibh praesent tristique magna. At augue eget arcu dictum varius duis at. Suspendisse interdum consectetur libero id. Luctus accumsan tortor posuere ac ut. Mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan tortor. Est sit amet facilisis magna. Sem nulla pharetra diam sit amet nisl suscipit adipiscing. Quis auctor elit sed vulputate. Leo a diam sollicitudin tempor id. Turpis in eu mi bibendum neque egestas congue quisque egestas. Velit sed ullamcorper morbi tincidunt ornare. Condimentum vitae sapien pellentesque habitant morbi tristique senectus et. Quis imperdiet massa tincidunt nunc. Sit amet porttitor eget dolor morbi non arcu risus.Blandit aliquam etiam erat velit. Sed felis eget velit aliquet sagittis id consectetur purus ut. Vulputate odio ut enim blandit. Enim lobortis scelerisque fermentum dui faucibus. Ac ut consequat semper viverra nam. Fringilla ut morbi tincidunt augue interdum. Tristique senectus et netus et. Suspendisse faucibus interdum posuere lorem. Ut etiam sit amet nisl. At erat pellentesque adipiscing commodo elit at. Augue interdum velit euismod in pellentesque massa placerat duis.</p><p class="authorP"> 周宜芳譯自 “The Rules of Co-opetition” HBR, January - February 2021 </p> <a data-fancybox="gallery" href="https://www.hbrtaiwan.com/images/articles_images/AR0010146.jpg" class="galleryBox" > <img src="https://www.hbrtaiwan.com/images/articles_images/AR0010146.jpg" alt=""/> </a>` (string, required) - HTML 內文
+        - articleSource (array) - 文章來源
+            - (object)
+                - publishedName: `了說如還物加師有以出灣是流照，的他行國明輕成告美象統防有星就會在問基百使雙，山聽子稱樂來事來想往對國課因道多頭日保生都；要最引的及數觀我理展無景木指？可張商不門醫馬點不快說由石：此表照，了學然` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 1 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR174.jpg` - 出版品圖片, 可填""
+                - periodicalId: 435 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `與競爭者共舞` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 2 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR173.jpg` - 出版品圖片, 可填""
+                - periodicalId: 436 (number, optional) - 出版品 ID, 可填""
+        - articleCollection (array) - 文章出處
+            - (object)
+                - publishedName: `家族企業永續的祕密` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 3 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR148.jpg` - 出版品圖片, 可填""
+                - periodicalId: 437 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `物競天擇論` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 4 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR147.jpg` - 出版品圖片, 可填""
+                - periodicalId: 438 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `成功的十種方法` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 5 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HS1509.jpg` - 出版品圖片, 可填""
+                - periodicalId: 439 (number, optional) - 出版品 ID, 可填""
+        - Include extendPostList
+        - Include discussList
+        - readHeight: 900 (number, required) - 文章閱讀高度, 會員未登入時回傳0; 會員登入後, 更改此值
+
+
+
+## 單一文章資料 B [/api/post/get_sing_f/1]
+### GET-/api/post/get_sing_g/{postId} [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        - postId: 0 (number, required) - 單一文章 ID
+        - title: `標題二` (string, required) - 單一文章中文標題  
+        - enTitle: `標題二 - EN` (string, required) - 單一文章英文標題  
+        - description: `Risus viverra adipiscing at in tellus integer feugiat scelerisque varius. Nisi est sit amet facilisis magna etiam tempor.` - (string, required) - 文章引言
+        - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+        - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+        - formPeriodical - 出版品資訊
+            - Include periodical
+        - template - 版型資訊
+            - Include template
+        - topicInfo - 分類主題資訊
+            - Include topicInfo
+        - favoriteTo (array[favoriteFolder]) - 被收藏至
+        - author (array[singAuthorInfo]) - 作者資訊
+        - breadCrumbs - 麵包屑資訊
+            - rank01
+                - title: `數位版文章` (string, optional) - 麵包屑第二順位名稱, 可填""
+                - link: `/blog_list` (string, optional) - 麵包屑第二順位連結, 可填""
+            - rank02
+                - title: `領導人不在意細節，你該怎麼辦?` (string, optional) - 麵包屑第三順位名稱, 可填""
+                - link: `/article_content_AR0009644` (string, optional) - 麵包屑第三順位連結, 可填""
+            - rank03
+                - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+                - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+        - subTitle: `有領導力 · 更有管理力` (string, optional) - 副標題, 可填""
+        - relatedTopic (array[topicInfo]) - 相關主題分類
+        - featuredImgCaption: `良好溝通的兩個最基本的要素，就是傾聽與提問。` (string, optional) - 主圖圖說
+        - postContent: `Risus viverra adipiscing at in tellus integer feugiat scelerisque varius. Nisi est sit amet facilisis magna etiam tempor. Aliquam faucibus purus in massa tempor nec feugiat nisl pretium. Justo donec enim diam vulputate ut pharetra sit amet aliquam. Pellentesque dignissim enim sit amet venenatis urna cursus. Euismod elementum nisi quis eleifend quam adipiscing vitae. Eu turpis egestas pretium aenean pharetra magna. Cras semper auctor neque vitae tempus quam. Urna duis convallis convallis tellus id interdum velit laoreet. Et netus et malesuada fames ac turpis egestas. Nec feugiat nisl pretium fusce id velit ut tortor. Sed euismod nisi porta lorem mollis aliquam ut porttitor. In hac habitasse platea dictumst quisque sagittis purus sit.In nulla posuere sollicitudin aliquam ultrices. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Nisl tincidunt eget nullam non nisi est sit amet. Pellentesque nec nam aliquam sem et tortor. Amet mattis vulputate enim nulla aliquet porttitor. Vulputate enim nulla aliquet porttitor lacus. Leo vel fringilla est ullamcorper eget nulla facilisi etiam. Nunc sed blandit libero volutpat sed cras. Enim ut sem viverra aliquet. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Sed vulputate odio ut enim blandit volutpat. Sapien pellentesque habitant morbi tristique senectus et netus.Phasellus faucibus scelerisque eleifend donec. Eget aliquet nibh praesent tristique magna. At augue eget arcu dictum varius duis at. Suspendisse interdum consectetur libero id. Luctus accumsan tortor posuere ac ut. Mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan tortor. Est sit amet facilisis magna. Sem nulla pharetra diam sit amet nisl suscipit adipiscing. Quis auctor elit sed vulputate. Leo a diam sollicitudin tempor id. Turpis in eu mi bibendum neque egestas congue quisque egestas. Velit sed ullamcorper morbi tincidunt ornare. Condimentum vitae sapien pellentesque habitant morbi tristique senectus et. Quis imperdiet massa tincidunt nunc. Sit amet porttitor eget dolor morbi non arcu risus.Blandit aliquam etiam erat velit. Sed felis eget velit aliquet sagittis id consectetur purus ut. Vulputate odio ut enim blandit. Enim lobortis scelerisque fermentum dui faucibus. Ac ut consequat semper viverra nam. Fringilla ut morbi tincidunt augue interdum. Tristique senectus et netus et. Suspendisse faucibus interdum posuere lorem. Ut etiam sit amet nisl. At erat pellentesque adipiscing commodo elit at. Augue interdum velit euismod in pellentesque massa placerat duis.<blockquote> Risus viverra adipiscing at in tellus integer feugiat scelerisque varius. Nisi est sit amet facilisis magna etiam tempor. Aliquam faucibus purus in massa tempor nec feugiat nisl pretium. </blockquote><p class="authorP"> Aliquam Ultrices </p>` (string, required) - HTML 內文
+        - articleSource (array) - 文章來源
+            - (object)
+                - publishedName: `了說如還物加師有以出灣是流照，的他行國明輕成告美象統防有星就會在問基百使雙，山聽子稱樂來事來想往對國課因道多頭日保生都；要最引的及數觀我理展無景木指？可張商不門醫馬點不快說由石：此表照，了學然` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 1 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR174.jpg` - 出版品圖片, 可填""
+                - periodicalId: 435 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `與競爭者共舞` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 2 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR173.jpg` - 出版品圖片, 可填""
+                - periodicalId: 436 (number, optional) - 出版品 ID, 可填""
+        - articleCollection (array) - 文章出處
+            - (object)
+                - publishedName: `家族企業永續的祕密` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 3 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR148.jpg` - 出版品圖片, 可填""
+                - periodicalId: 437 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `物競天擇論` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 4 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR147.jpg` - 出版品圖片, 可填""
+                - periodicalId: 438 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `成功的十種方法` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 5 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HS1509.jpg` - 出版品圖片, 可填""
+                - periodicalId: 439 (number, optional) - 出版品 ID, 可填""
+        - Include extendPostList
+        - Include discussList
+        - readHeight: 0 (number, required) - 文章閱讀高度, 會員未登入時回傳0; 會員登入後, 更改此值
+
+
+## 單一文章資料 C [/api/post/get_sing_f/2]
+### GET-/api/post/get_sing_h/{postId} [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        - postId: 0 (number, required) - 單一文章 ID
+        - title: `標題三` (string, required) - 單一文章中文標題  
+        - enTitle: `標題三 - EN` (string, required) - 單一文章英文標題  
+        - description: `Blandit aliquam etiam erat velit. Sed felis eget velit aliquet sagittis id consectetur purus ut.` - (string, required) - 文章引言
+        - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+        - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+        - formPeriodical - 出版品資訊
+            - Include periodical
+        - template - 版型資訊
+            - Include template
+        - topicInfo - 分類主題資訊
+            - Include topicInfo
+        - favoriteTo (array[favoriteFolder]) - 被收藏至
+        - author (array[singAuthorInfo]) - 作者資訊
+        - breadCrumbs - 麵包屑資訊
+            - rank01
+                - title: `數位版文章` (string, optional) - 麵包屑第二順位名稱, 可填""
+                - link: `/blog_list` (string, optional) - 麵包屑第二順位連結, 可填""
+            - rank02
+                - title: `領導人不在意細節，你該怎麼辦?` (string, optional) - 麵包屑第三順位名稱, 可填""
+                - link: `/article_content_AR0009644` (string, optional) - 麵包屑第三順位連結, 可填""
+            - rank03
+                - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+                - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+        - subTitle: `有領導力 · 更有管理力` (string, optional) - 副標題, 可填""
+        - relatedTopic (array[topicInfo]) - 相關主題分類
+        - featuredImgCaption: `良好溝通的兩個最基本的要素，就是傾聽與提問。` (string, optional) - 主圖圖說
+        - postContent: `<h3>333</h3><p>Risus viverra adipiscing at in tellus integer feugiat scelerisque varius. Nisi est sit amet facilisis magna etiam tempor. Aliquam faucibus purus in massa tempor nec feugiat nisl pretium. Justo donec enim diam vulputate ut pharetra sit amet aliquam. Pellentesque dignissim enim sit amet venenatis urna cursus. Euismod elementum nisi quis eleifend quam adipiscing vitae. Eu turpis egestas pretium aenean pharetra magna. Cras semper auctor neque vitae tempus quam. Urna duis convallis convallis tellus id interdum velit laoreet. Et netus et malesuada fames ac turpis egestas. Nec feugiat nisl pretium fusce id velit ut tortor. Sed euismod nisi porta lorem mollis aliquam ut porttitor. In hac habitasse platea dictumst quisque sagittis purus sit.In nulla posuere sollicitudin aliquam ultrices. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Nisl tincidunt eget nullam non nisi est sit amet. Pellentesque nec nam aliquam sem et tortor. Amet mattis vulputate enim nulla aliquet porttitor. Vulputate enim nulla aliquet porttitor lacus. Leo vel fringilla est ullamcorper eget nulla facilisi etiam. Nunc sed blandit libero volutpat sed cras. Enim ut sem viverra aliquet. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Sed vulputate odio ut enim blandit volutpat. Sapien pellentesque habitant morbi tristique senectus et netus.Phasellus faucibus scelerisque eleifend donec. Eget aliquet nibh praesent tristique magna. At augue eget arcu dictum varius duis at. Suspendisse interdum consectetur libero id. Luctus accumsan tortor posuere ac ut. Mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan tortor. Est sit amet facilisis magna. Sem nulla pharetra diam sit amet nisl suscipit adipiscing. Quis auctor elit sed vulputate. Leo a diam sollicitudin tempor id. Turpis in eu mi bibendum neque egestas congue quisque egestas. Velit sed ullamcorper morbi tincidunt ornare. Condimentum vitae sapien pellentesque habitant morbi tristique senectus et. Quis imperdiet massa tincidunt nunc. Sit amet porttitor eget dolor morbi non arcu risus.Blandit aliquam etiam erat velit. Sed felis eget velit aliquet sagittis id consectetur purus ut. Vulputate odio ut enim blandit. Enim lobortis scelerisque fermentum dui faucibus. Ac ut consequat semper viverra nam. Fringilla ut morbi tincidunt augue interdum. Tristique senectus et netus et. Suspendisse faucibus interdum posuere lorem. Ut etiam sit amet nisl. At erat pellentesque adipiscing commodo elit at. Augue interdum velit euismod in pellentesque massa placerat duis.</p><blockquote> At erat pellentesque adipiscing commodo elit at. Augue interdum velit euismod in pellentesque massa placerat duis. </blockquote><p class="authorP"> Eget aliquet </p>` (string, required) - HTML 內文
+        - articleSource (array) - 文章來源
+            - (object)
+                - publishedName: `了說如還物加師有以出灣是流照，的他行國明輕成告美象統防有星就會在問基百使雙，山聽子稱樂來事來想往對國課因道多頭日保生都；要最引的及數觀我理展無景木指？可張商不門醫馬點不快說由石：此表照，了學然` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 1 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR174.jpg` - 出版品圖片, 可填""
+                - periodicalId: 435 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `與競爭者共舞` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 2 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR173.jpg` - 出版品圖片, 可填""
+                - periodicalId: 436 (number, optional) - 出版品 ID, 可填""
+        - articleCollection (array) - 文章出處
+            - (object)
+                - publishedName: `家族企業永續的祕密` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 3 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR148.jpg` - 出版品圖片, 可填""
+                - periodicalId: 437 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `物競天擇論` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 4 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR147.jpg` - 出版品圖片, 可填""
+                - periodicalId: 438 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `成功的十種方法` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 5 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HS1509.jpg` - 出版品圖片, 可填""
+                - periodicalId: 439 (number, optional) - 出版品 ID, 可填""
+        - Include extendPostList
+        - Include discussList
+        - readHeight: 0 (number, required) - 文章閱讀高度, 會員未登入時回傳0; 會員登入後, 更改此值
+
+
+
+## 導師講座列表 [/api/teacher/get_list]
+### GET-/api/teacher/get_list [GET]
++ Response 200 (application/json)
+    + Body
+
+            {
+              "queryList": [
+                {
+                  "postId": 8600,
+                  "title": "怎樣實施折扣才會有效。折扣促銷是行銷領域的顯學，不同促銷方式需要精準的客群定位，若是採取無差別化、齊頭式",
+                  "topic": "創新",
+                  "topicId": 400,
+                  "publishedDate": "2020/8/19",
+                  "template": {
+                    "templateName": "單一紙本文章",
+                    "templateSlug":"paper",
+                    "templateId": 20
+                  },
+                  "author": "張純端",
+                  "featuredImg": "https://imgs.cwgv.com.tw/articles/59/20159/preview/thumb/20159.png",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget egestas purus viverra accumsan in. ",
+                  "favoriteTo": [
+                    {
+                      "name": "未分類",
+                      "id": 100
+                    }
+                  ]
+                },
+                {
+                  "postId": 8601,
+                  "title": "這些企業都是由產品轉型為平台，一路擴張產業版",
+                  "topic": "創新",
+                  "topicId": 400,
+                  "publishedDate": "2020/8/19",
+                  "template": {
+                    "templateName": "單一紙本文章",
+                    "templateSlug":"paper",
+                    "templateId": 20
+                  },
+                  "author": "郎祖筠",
+                  "featuredImg": "https://imgs.cwgv.com.tw/articles/03/19903/preview/thumb/19903.png",
+                  "description": "Tortor dignissim convallis aenean et tortor at risus viverra adipiscing. Sagittis id consectetur purus ut faucibus pulvinar.",
+                  "favoriteTo": [
+                    {
+                      "name": "未分類",
+                      "id": 100
+                    }
+                  ]
+                },
+                {
+                  "postId": 8602,
+                  "title": "企業做善事一定會有好報？",
+                  "topic": "創新",
+                  "topicId": 400,
+                  "publishedDate": "2020/8/19",
+                  "template": {
+                    "templateName": "單一紙本文章",
+                    "templateSlug":"paper",
+                    "templateId": 20
+                  },
+                  "author": "李小明",
+                  "featuredImg": "https://imgs.cwgv.com.tw/articles/04/20304/preview/thumb/20304.png",
+                  "description": "Felis eget velit aliquet sagittis id consectetur purus ut. Ac ut consequat semper viverra nam. Eget egestas purus viverra accumsan in.",
+                  "favoriteTo": [
+                    {
+                      "name": "未分類",
+                      "id": 100
+                    }
+                  ]
+                },
+                {
+                  "postId": 8603,
+                  "title": "76歲仍是飛躍羚羊！紀政：50歲後我每天健走50分鐘，半年瘦20公斤",
+                  "topic": "創新",
+                  "topicId": 400,
+                  "publishedDate": "2020/8/19",
+                  "template": {
+                    "templateName": "單一紙本文章",
+                    "templateSlug":"paper",
+                    "templateId": 20
+                  },
+                  "author": "紀政",
+                  "featuredImg": "https://imgs.cwgv.com.tw/articles/11/19911/preview/thumb/19911.png",
+                  "description": "Et malesuada fames ac turpis egestas integer eget. Suscipit tellus mauris a diam maecenas. A lacus vestibulum sed arcu non odio.",
+                  "favoriteTo": [
+                    {
+                      "name": "未分類",
+                      "id": 100
+                    }
+                  ]
+                }
+              ],
+              "totalElements": 4,
+              "totalPages": 0
+            }
+
+
+## 單一導師講座 [/api/teacher/get_sing_f/{postId}]
+### GET-/api/teacher/get_sing_f/{postId} [GET]
++ Parameters
+    + postId: 0 (number, required) - 文章 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        - postId: 0 (number, required) - 單一文章 ID
+        - title: `領導人不在意細節，你該怎麼辦?` (string, required) - 單一文章中文標題  
+        - enTitle: `A lacus vestibulum sed arcu non odio` (string, required) - 單一文章英文標題  
+        - description: `職場常見的一個現象是，領導人擁有創意十足想，但是並不太了解營運或執行。這類領導人沒興趣聽取行動方案成功所需要的條件。` - (string, required) - 文章引言
+        - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+        - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+        - formPeriodical - 出版品資訊
+            - Include periodical
+        - template - 版型資訊
+            - Include template
+        - topicInfo - 分類主題資訊
+            - Include topicInfo
+        - favoriteTo (array[favoriteFolder]) - 被收藏至
+        - author (array[singAuthorInfo]) - 作者資訊
+        - breadCrumbs - 麵包屑資訊
+            - rank01
+                - title: `數位版文章` (string, optional) - 麵包屑第二順位名稱, 可填""
+                - link: `/blog_list` (string, optional) - 麵包屑第二順位連結, 可填""
+            - rank02
+                - title: `領導人不在意細節，你該怎麼辦?` (string, optional) - 麵包屑第三順位名稱, 可填""
+                - link: `/article_content_AR0009644` (string, optional) - 麵包屑第三順位連結, 可填""
+            - rank03
+                - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+                - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+        - subTitle: `有領導力 · 更有管理力` (string, optional) - 副標題, 可填""
+        - relatedTopic (array[topicInfo]) - 相關主題分類
+        - featuredImgCaption: `良好溝通的兩個最基本的要素，就是傾聽與提問。` (string, optional) - 主圖圖說
+        - postContent: `<blockquote> 我是blockquote有些職場建言會告訴你：跟著熱情走。但如果人們沒有找到一個符合他們天生才能、可讓他們內心充滿喜悅的理想工作，這樣的建言可能會帶來傷害，何況熱情可能維持不久。 </blockquote><p class="authorP"> 周宜芳譯自 “The Rules of Co-opetition” HBR, January - February 2021 </p>` (string, required) - HTML 內文
+        - articleSource (array) - 文章來源
+            - (object)
+                - publishedName: `了說如還物加師有以出灣是流照，的他行國明輕成告美象統防有星就會在問基百使雙，山聽子稱樂來事來想往對國課因道多頭日保生都；要最引的及數觀我理展無景木指？可張商不門醫馬點不快說由石：此表照，了學然` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 1 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR174.jpg` - 出版品圖片, 可填""
+                - periodicalId: 435 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `與競爭者共舞` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 2 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2021 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR173.jpg` - 出版品圖片, 可填""
+                - periodicalId: 436 (number, optional) - 出版品 ID, 可填""
+        - articleCollection (array) - 文章出處
+            - (object)
+                - publishedName: `家族企業永續的祕密` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 3 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR148.jpg` - 出版品圖片, 可填""
+                - periodicalId: 437 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `物競天擇論` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 4 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR147.jpg` - 出版品圖片, 可填""
+                - periodicalId: 438 (number, optional) - 出版品 ID, 可填""
+            - (object)
+                - publishedName: `成功的十種方法` (string, optional) - 出版品名稱, 可填""
+                - publishedMonth: 5 (number, optional) - 出版品月份, 可填""
+                - publishedYear: 2020 (number, optional) - 出版品年份, 可填""
+                - periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HS1509.jpg` - 出版品圖片, 可填""
+                - periodicalId: 439 (number, optional) - 出版品 ID, 可填""
+        - Include extendPostList
+        - Include discussList
+        - readHeight: 0 (number, required) - 文章閱讀高度, 會員未登入時回傳0; 會員登入後, 更改此值
+        - questionBox
+            - title: `閱讀完本模組的文章／個案後` (string, required) - 標題
+            - subtitle: `我們建議您思考下列問題` (string, required) - 副標題
+            - list (array) - 問題列表
+                - `多要學別覺三調個管構還益公舉友表，舉車買；管分當教就們易東黨兩：精得言金它！不合早千年廣道子出？` (string, required) - 問題字串
+                - `告往少海無具也士的；起不而防工大亞道營師動自風過起或醫沒燈人現已王論的物品新的上不任洲洲皮可` (string, required) - 問題字串
+                - `傳會開起；呢理室爭故利正不她展種傳月放時物寶提實下區目應事。見學特已心源所母沒觀有能選法急政幾；` (string, required) - 問題字串
+        - readArticle (array) - 講座文章
+            - (object)
+                - order: 1 (number, required) - 編號順序
+                - title: `數據對供應鏈帶來的影響與改變` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 2 (number, required) - 編號順序
+                - title: `置身生態系統經濟打團體戰置身生態系統經濟打團體戰置身生態系統經濟打團體戰置身生態系統經濟打團體戰` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 3 (number, required) - 編號順序
+                - title: `打造IT系統，公司需要藍圖` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 4 (number, required) - 編號順序
+                - title: `領導數位轉型的必備視野` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 5 (number, required) - 編號順序
+                - title: `如何成功的達成數位轉型` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 6 (number, required) - 編號順序
+                - title: `全面破壞不是唯一做法` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 7 (number, required) - 編號順序
+                - title: `數位不等於打掉重練` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 8 (number, required) - 編號順序
+                - title: `數位轉型比照城市規畫` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 9 (number, required) - 編號順序
+                - title: `置身生態系統經濟打團體戰` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 10 (number, required) - 編號順序
+                - title: `打造IT系統，公司需要藍圖` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 11 (number, required) - 編號順序
+                - title: `領導數位轉型的必備視野` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 12 (number, required) - 編號順序
+                - title: `如何成功的達成數位轉型` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 13 (number, required) - 編號順序
+                - title: `全面破壞不是唯一做法` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 14 (number, required) - 編號順序
+                - title: `數位不等於打掉重練` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+            - (object)
+                - order: 15 (number, required) - 編號順序
+                - title: `數位轉型比照城市規畫` (string, required) - 標題
+                - postId: 0 (number, required) - 文章 ID
+
+## 個人學院右側收合選單 [/api/college/get_list]
+### GET-/api/college/get_list [GET]
++ Response 200 (application/json)
+    + Body
+
+            {
+              "queryList": [
+                {
+                    "title":"品的然心量人不好。信沒功建山媽滿受她廠家因當散關：出何越裡品一親工白，視意力不有世好打打，設果一德：多話題土不中管人活術小不保好你聽學隊眾留大北值唱手用港支大，登不山心說是把送類一前市根世賽致明基子。行天皮信，確民利收靈件信品他法",
+                    "des":"信沒功建山媽滿受她廠家因當散關：出何越裡品一親工白，視意力不有世好打打，設果一德：多話題土不中管人活術小不",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010181.jpg",
+                    "order":1
+                },
+                {
+                    "title":"參保麼體帶回族社這的女自園驗的就教設電對麼",
+                    "des":"病館養自上技學不裡屋氣加政設故家怕女自園驗的就教設電對麼部車個去地表人？單身般級好，高參保麼體帶回族社這的",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010161.jpg",
+                    "order":2
+                },
+                {
+                    "title":"員少原近民，的歷廣",
+                    "des":"四原是不來政理長學因驗是營為上把飛個性達地用身明發比雲？標雖金真為府完起作比然色在出於的市職因聲紀大中個",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010168.jpg",
+                    "order":3
+                },
+                {
+                    "title":"品的然心量人不好。信沒功建山媽滿受她廠家因當散關：出何越裡品一親工白，視意力不有世好打打，設果一德：多話題土不中管人活術小不保好你聽學隊眾留大北值唱手用港支大，登不山心說是把送類一前市根世賽致明基子。行天皮信，確民利收靈件信品他法",
+                    "des":"信沒功建山媽滿受她廠家因當散關：出何越裡品一親工白，視意力不有世好打打，設果一德：多話題土不中管人活術小不",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010181.jpg",
+                    "order":4
+                },
+                {
+                    "title":"參保麼體帶回族社這的女自園驗的就教設電對麼",
+                    "des":"病館養自上技學不裡屋氣加政設故家怕女自園驗的就教設電對麼部車個去地表人？單身般級好，高參保麼體帶回族社這的",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010161.jpg",
+                    "order":5
+                },
+                {
+                    "title":"員少原近民，的歷廣",
+                    "des":"四原是不來政理長學因驗是營為上把飛個性達地用身明發比雲？標雖金真為府完起作比然色在出於的市職因聲紀大中個",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010168.jpg",
+                    "order":6
+                },
+                {
+                    "title":"品的然心量人不好。信沒功建山媽滿受她廠家因當散關：出何越裡品一親工白，視意力不有世好打打，設果一德：多話題土不中管人活術小不保好你聽學隊眾留大北值唱手用港支大，登不山心說是把送類一前市根世賽致明基子。行天皮信，確民利收靈件信品他法",
+                    "des":"信沒功建山媽滿受她廠家因當散關：出何越裡品一親工白，視意力不有世好打打，設果一德：多話題土不中管人活術小不",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010181.jpg",
+                    "order":7
+                },
+                {
+                    "title":"參保麼體帶回族社這的女自園驗的就教設電對麼",
+                    "des":"病館養自上技學不裡屋氣加政設故家怕女自園驗的就教設電對麼部車個去地表人？單身般級好，高參保麼體帶回族社這的",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010161.jpg",
+                    "order":8
+                },
+                {
+                    "title":"員少原近民，的歷廣",
+                    "des":"四原是不來政理長學因驗是營為上把飛個性達地用身明發比雲？標雖金真為府完起作比然色在出於的市職因聲紀大中個",
+                    "img":"https://www.hbrtaiwan.com/images/articles_images/AR0010168.jpg",
+                    "order":9
+                }
+              ],
+              "totalElements": 7,
+              "totalPages": 0
+            }
+
+## 單一觀念圖解-圖表 [/api/idea/get_sing_pic/10]
+### GET-/api/idea/get_sing_pic/10 [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        - postId: 10 (number, required) - 單一文章 ID
+        - title: `把競爭力搬上高層的兩種方法` (string, required) - 單一文章中文標題  
+        - enTitle: `How to Hold Tension at the Top: Two Approaches` (string, required) - 單一文章英文標題  
+        - description: `我們的研究顯示，攸關公司目前與未來的決策，必須由高層來做，我們找到兩個一樣成功，但截然不同的方式，可以把競爭提升到管理高層。` - (string, required) - 文章引言
+        - publishedDate: `2020/8/20` (string, required) - 發佈日期, 可填""
+        - featuredImg: `https://www.hbrtaiwan.com/images/articles_images/DIGATL/AR0009895_1.png` (string, required) - 文章主圖
+        - template - 版型資訊
+            - templateName: `單一觀念圖解` (string, required) - 版型名稱
+            - templateSlug: `idea` (string, required) - 版型別名
+            - templateId: 17 (number, required) - 版型 ID
+        - topicInfo - 分類主題資訊
+            - Include topicInfo
+        - favoriteTo (array[favoriteFolder]) - 被收藏至
+        - author (array) - 作者資訊
+            - (object)
+                - name: `強納森．喬斯林 Jonathan Gosling` - (string, required) - 作者名稱
+                - authId: 146 - 作者 ID
+            - (object)
+                - name: `麥克．塔辛曼 Michael L. Tushman` - (string, required) - 作者名稱
+                - authId: 191 - 作者 ID
+        - breadCrumbs - 麵包屑資訊
+            - rank01
+                - title: `觀念圖解` (string, optional) - 麵包屑第二順位名稱, 可填""
+                - link: `/idea` (string, optional) - 麵包屑第二順位連結, 可填""
+            - rank02
+                - title: `""` (string, optional) - 麵包屑第三順位名稱, 可填""
+                - link: `""` (string, optional) - 麵包屑第三順位連結, 可填""
+            - rank03
+                - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+                - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+        - ideaContent: `我們的研究顯示，攸關公司目前與未來的決策，必須由高層來做，我們找到兩個一樣成功，但截然不同的方式，可以把競爭提升到管理高層。` (string, optional) - 列印及下載按鈕上方的文字敘述, 可填""
+        - download: `/download/test.pdf` (string, required) - 圖表下載網址
+        - ideaCollection: `執行長無往不利` (string, required) - 圖表出處
+        - ideaType: `資訊圖表` (string, required) - 觀念圖解內容形式
+        - readHeight: 0 (number, required) - 文章閱讀高度, 會員未登入時回傳0; 會員登入後, 更改此值
+
+
+## 主題分類列表 [/api/topicInfo/get_list_mock/]
+### POST-/api/topicInfo/get_list_mock [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 登入後才能得知道是否有追蹤
+        + count: 80 (number, optional) - 數量, 不填預設列出全部
+        + page: 1 (number, optional) - 頁數, 不填預設為1頁
+        + sortBy: `latest` (string, optional) - 排列依據, 預設為 新→舊 latest, 可填隨機 random
+        + sortOder: `DESC` (string, optional) - 排列順序, 不填預設為降冪
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array)
+            - (object)
+                - topic: `人力資源管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic1` (string, required) - 主題分類英文名稱
+                - topicId: 0 (number, required) - 主題分類 ID
+                - track: true (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `接受回饋意見` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic2` (string, required) - 主題分類英文名稱
+                - topicId: 2 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `資訊科技` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic3` (string, required) - 主題分類英文名稱
+                - topicId: 3 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人口統計特性` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic4` (string, required) - 主題分類英文名稱
+                - topicId: 4 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `供應鏈` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic5` (string, required) - 主題分類英文名稱
+                - topicId: 5 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `接班規畫` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic6` (string, required) - 主題分類英文名稱
+                - topicId: 6 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `資訊與技術` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic7` (string, required) - 主題分類英文名稱
+                - topicId: 7 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人才管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic8` (string, required) - 主題分類英文名稱
+                - topicId: 8 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `併購` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic9` (string, required) - 主題分類英文名稱
+                - topicId: 9 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `授權` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic10` (string, required) - 主題分類英文名稱
+                - topicId: 10 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `跨文化管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic11` (string, required) - 主題分類英文名稱
+                - topicId: 11 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人事政策` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic12` (string, required) - 主題分類英文名稱
+                - topicId: 12 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `道德倫理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic13` (string, required) - 主題分類英文名稱
+                - topicId: 13 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `我是測試文字測試文字測試文字` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic14` (string, required) - 主題分類英文名稱
+                - topicId: 14 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `性別` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic15` (string, required) - 主題分類英文名稱
+                - topicId: 15 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `族裔` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic16` (string, required) - 主題分類英文名稱
+                - topicId: 16 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `零售與消費性商品` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic17` (string, required) - 主題分類英文名稱
+                - topicId: 17 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `法規管制` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic18` (string, required) - 主題分類英文名稱
+                - topicId: 18 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `產品開發` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic19` (string, required) - 主題分類英文名稱
+                - topicId: 19 (number, required) - 主題分類 ID
+                - track: true (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `預測` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic20` (string, required) - 主題分類英文名稱
+                - topicId: 20 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人力資源管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic21` (string, required) - 主題分類英文名稱
+                - topicId: 21 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `接受回饋意見` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic22` (string, required) - 主題分類英文名稱
+                - topicId: 22 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `資訊科技` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic23` (string, required) - 主題分類英文名稱
+                - topicId: 23 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人口統計特性` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic24` (string, required) - 主題分類英文名稱
+                - topicId: 24 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `供應鏈` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic25` (string, required) - 主題分類英文名稱
+                - topicId: 25 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `接班規畫` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic26` (string, required) - 主題分類英文名稱
+                - topicId: 26 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `資訊與技術` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic27` (string, required) - 主題分類英文名稱
+                - topicId: 27 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人才管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic28` (string, required) - 主題分類英文名稱
+                - topicId: 28 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `併購` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic29` (string, required) - 主題分類英文名稱
+                - topicId: 29 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `授權` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic30` (string, required) - 主題分類英文名稱
+                - topicId: 30 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `跨文化管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic31` (string, required) - 主題分類英文名稱
+                - topicId: 31 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人事政策` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic32` (string, required) - 主題分類英文名稱
+                - topicId: 32 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `道德倫理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic33` (string, required) - 主題分類英文名稱
+                - topicId: 33 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `工作生活平衡` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic34` (string, required) - 主題分類英文名稱
+                - topicId: 34 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `性別` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic35` (string, required) - 主題分類英文名稱
+                - topicId: 35 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `族裔` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic36` (string, required) - 主題分類英文名稱
+                - topicId: 36 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `零售與消費性商品` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic37` (string, required) - 主題分類英文名稱
+                - topicId: 37 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `法規管制` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic38` (string, required) - 主題分類英文名稱
+                - topicId: 38 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `產品開發` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic39` (string, required) - 主題分類英文名稱
+                - topicId: 39 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `預測` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic40` (string, required) - 主題分類英文名稱
+                - topicId: 40 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人力資源管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic41` (string, required) - 主題分類英文名稱
+                - topicId: 41 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `接受回饋意見` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic42` (string, required) - 主題分類英文名稱
+                - topicId: 42 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `資訊科技` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic43` (string, required) - 主題分類英文名稱
+                - topicId: 43 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人口統計特性` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic44` (string, required) - 主題分類英文名稱
+                - topicId: 44 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `供應鏈` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic45` (string, required) - 主題分類英文名稱
+                - topicId: 45 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `接班規畫` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic46` (string, required) - 主題分類英文名稱
+                - topicId: 46 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `資訊與技術` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic47` (string, required) - 主題分類英文名稱
+                - topicId: 47 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人才管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic48` (string, required) - 主題分類英文名稱
+                - topicId: 48 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `併購` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic49` (string, required) - 主題分類英文名稱
+                - topicId: 49 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `授權` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic50` (string, required) - 主題分類英文名稱
+                - topicId: 50 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `跨文化管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic51` (string, required) - 主題分類英文名稱
+                - topicId: 51 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人事政策` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic52` (string, required) - 主題分類英文名稱
+                - topicId: 52 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `道德倫理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic53` (string, required) - 主題分類英文名稱
+                - topicId: 53 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `工作生活平衡` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic54` (string, required) - 主題分類英文名稱
+                - topicId: 54 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `性別` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic55` (string, required) - 主題分類英文名稱
+                - topicId: 55 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `族裔` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic56` (string, required) - 主題分類英文名稱
+                - topicId: 56 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `零售與消費性商品` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic57` (string, required) - 主題分類英文名稱
+                - topicId: 57 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `法規管制` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic58` (string, required) - 主題分類英文名稱
+                - topicId: 58 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `產品開發` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic59` (string, required) - 主題分類英文名稱
+                - topicId: 59 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `預測` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic60` (string, required) - 主題分類英文名稱
+                - topicId: 60 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+
+
+## 熱門主題分類列表 [/api/topicInfo/get_hot_list_mock/]
+### POST-/api/topicInfo/get_hot_list_mock [POST]
++ Request (application/json)
+    + Attributes (object)
+        + userId: `A8Y3eqS2Iz` (string, optional) - 使用者 ID, 登入後才能得知道是否有追蹤
+        + count: 20 (number, optional) - 數量, 不填預設列出全部
++ Response 200 (application/json)
+    + Attributes (object)
+        + queryList (array)
+            - (object)
+                - topic: `領導` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic61` (string, required) - 主題分類英文名稱
+                - topicId: 61 (number, required) - 主題分類 ID
+                - track: true (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `行銷` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic62` (string, required) - 主題分類英文名稱
+                - topicId: 62 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `決策` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic63` (string, required) - 主題分類英文名稱
+                - topicId: 63 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `領導團隊` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic64` (string, required) - 主題分類英文名稱
+                - topicId: 64 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `創新` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic65` (string, required) - 主題分類英文名稱
+                - topicId: 65 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `策略` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic66` (string, required) - 主題分類英文名稱
+                - topicId: 66 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `精選專題` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic67` (string, required) - 主題分類英文名稱
+                - topicId: 67 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `變革管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic68` (string, required) - 主題分類英文名稱
+                - topicId: 68 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `自我管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic69` (string, required) - 主題分類英文名稱
+                - topicId: 69 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `管理員工` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic70` (string, required) - 主題分類英文名稱
+                - topicId: 70 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `顧客` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic71` (string, required) - 主題分類英文名稱
+                - topicId: 71 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `競爭策略` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic72` (string, required) - 主題分類英文名稱
+                - topicId: 72 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `溝通` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic73` (string, required) - 主題分類英文名稱
+                - topicId: 73 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `領導團隊` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic64` (string, required) - 主題分類英文名稱
+                - topicId: 64 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `職涯規畫` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic74` (string, required) - 主題分類英文名稱
+                - topicId: 74 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `創業` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic75` (string, required) - 主題分類英文名稱
+                - topicId: 75 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `經濟` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic76` (string, required) - 主題分類英文名稱
+                - topicId: 76 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `領導之人員管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic77` (string, required) - 主題分類英文名稱
+                - topicId: 77 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `組織文化` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic78` (string, required) - 主題分類英文名稱
+                - topicId: 78 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+            - (object)
+                - topic: `人才管理` (string, required) - 主題分類中文名稱
+                - topicEn: `Topic79` (string, required) - 主題分類英文名稱
+                - topicId: 79 (number, required) - 主題分類 ID
+                - track: false (boolean, required) - 是否已經追蹤
+
+## 單一主題分類 [/api/topicInfo/get_single_mock/{topicId}]
+### GET-/api/topicInfo/get_sing_mock/{topicId} [GET]
++ Parameters
+    + topicId: 0 (number, required) - 主題分類 ID
++ Response 200 (application/json)
+    + Attributes (object)
+        + topicInfo - 此 topicId 的主題分類資訊
+            + Include topicInfo
+        + recommend (array) - 預設回傳2篇推薦文章
+            + (object)
+                - postId: 201 (number, required) - 單一文章 ID
+                - title: `領導人不在意細節，你該怎麼辦?` (string, required) - 單一文章中文標題  
+                - enTitle: `A lacus vestibulum sed arcu non odio` (string, required) - 單一文章英文標題  
+                - description: `職場常見的一個現象是，領導人擁有創意十足想，但是並不太了解營運或執行。這類領導人沒興趣聽取行動方案成功所需要的條件。` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+            + (object)
+                - postId: 202 (number, required) - 單一文章 ID
+                - title: `Lorem ipsum dolor sit amet, consectetur adipiscing elit` (string, required) - 單一文章中文標題  
+                - enTitle: `Vitae sapien pellentesque` (string, required) - 單一文章英文標題  
+                - description: `Parturient montes nascetur ridiculus mus mauris vitae. Eu ultrices vitae auctor eu augue ut. Elit ut aliquam purus sit amet luctus.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+
+## 單一主題分類內的最新文章 [/api/topicInfo/get_single_list_mock/0]
+### GET-/api/topicInfo/get_sing_list_mock/0[GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + totalElements: 84 (number, required) - 回傳查詢的文章總共有幾篇
+        + totalPages: 12 (number, required) - 回傳查詢的文章總共有幾頁
+        + recommend (array)
+            + (object)
+                - postId: 203 (number, required) - 單一文章 ID
+                - title: `Egestas dui id ornare arcu odio` (string, required) - 單一文章中文標題  
+                - enTitle: `A lacus vestibulum sed arcu non odio` (string, required) - 單一文章英文標題  
+                - description: `Sit amet porttitor eget dolor morbi non. Risus in hendrerit gravida rutrum quisque non tellus orci. Porttitor eget dolor morbi non arcu risus.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 204 (number, required) - 單一文章 ID
+                - title: `Aliquam vestibulum morbi` (string, required) - 單一文章中文標題  
+                - enTitle: `Tellus elementum sagittis vitae et` (string, required) - 單一文章英文標題  
+                - description: `Nibh praesent tristique magna sit amet purus. Luctus venenatis lectus magna fringilla urna. Neque viverra justo nec ultrices dui sapien.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 205 (number, required) - 單一文章 ID
+                - title: `Neque viverra justo nec ultrices` (string, required) - 單一文章中文標題  
+                - enTitle: `Fringilla urna` (string, required) - 單一文章英文標題  
+                - description: `Id eu nisl nunc mi ipsum faucibus. Aliquam vestibulum morbi blandit cursus risus at ultrices. Tellus elementum sagittis vitae et.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+            + (object)
+                - postId: 206 (number, required) - 單一文章 ID
+                - title: `Quam viverra orci sagittis eu volutpat` (string, required) - 單一文章中文標題  
+                - enTitle: `Felis bibendum ut` (string, required) - 單一文章英文標題  
+                - description: `Egestas dui id ornare arcu odio ut sem nulla pharetra. Volutpat odio facilisis mauris sit amet massa.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 207 (number, required) - 單一文章 ID
+                - title: `Vel facilisis volutpat est velit egestas` (string, required) - 單一文章中文標題  
+                - enTitle: `Eu augue ut` (string, required) - 單一文章英文標題  
+                - description: `Lacus vel facilisis volutpat est velit egestas. Enim neque volutpat ac tincidunt vitae semper.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 208 (number, required) - 單一文章 ID
+                - title: `Sit amet luctus venenatis lectus magna` (string, required) - 單一文章中文標題  
+                - enTitle: `Risus pretium quam vulputate` (string, required) - 單一文章英文標題  
+                - description: `Tincidunt praesent semper feugiat nibh. Id velit ut tortor pretium viverra suspendisse.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 209 (number, required) - 單一文章 ID
+                - title: `Bibendum est ultricies integer` (string, required) - 單一文章中文標題  
+                - enTitle: `Id diam vel` (string, required) - 單一文章英文標題  
+                - description: `Sit amet porttitor eget dolor morbi non. Risus in hendrerit gravida rutrum quisque non tellus orci.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 210 (number, required) - 單一文章 ID
+                - title: `Tellus mauris a diam maecenas` (string, required) - 單一文章中文標題  
+                - enTitle: `Lacus` (string, required) - 單一文章英文標題  
+                - description: `Ipsum consequat nisl vel pretium lectus.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 211 (number, required) - 單一文章 ID
+                - title: `Sed do eiusmod` (string, required) - 單一文章中文標題  
+                - enTitle: `Bibendum` (string, required) - 單一文章英文標題  
+                - description: `Non curabitur gravida arcu ac tortor dignissim convallis aenean.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+            + (object)
+                - postId: 212 (number, required) - 單一文章 ID
+                - title: `Montes nascetur ridiculus` (string, required) - 單一文章中文標題  
+                - enTitle: `In pellentesque massa placerat` (string, required) - 單一文章英文標題  
+                - description: `Fringilla urna. Neque viverra justo nec` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+            + (object)
+                - postId: 213 (number, required) - 單一文章 ID
+                - title: `Diam sollicitudin tempor id eu` (string, required) - 單一文章中文標題  
+                - enTitle: `Purus sit amet volutpat` (string, required) - 單一文章英文標題  
+                - description: `Dignissim convallis aenean. Sit amet facilisis magna etiam tempor. Penatibus et magnis dis parturient montes.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+            + (object)
+                - postId: 214 (number, required) - 單一文章 ID
+                - title: `Non curabitur gravida arcu ac` (string, required) - 單一文章中文標題  
+                - enTitle: `Suscipit tellus mauris ` (string, required) - 單一文章英文標題  
+                - description: `Ipsum dolor sit amet consectetur adipiscing. Elementum curabitur vitae nunc sed velit dignissim sodales ut. Id eu nisl nunc mi ipsum faucibus.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+
+## 單一主題分類內的最新文章B [/api/topicInfo/get_single_list_mock/1]
+### GET-/api/topicInfo/get_sing_list_mock/1[GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + totalElements: 84 (number, required) - 回傳查詢的文章總共有幾篇
+        + totalPages: 12 (number, required) - 回傳查詢的文章總共有幾頁
+        + recommend (array) - 預設回傳2篇推薦文章
+            + (object)
+                - postId: 203 (number, required) - 單一文章 ID
+                - title: `222222 Egestas dui id ornare arcu odio` (string, required) - 單一文章中文標題  
+                - enTitle: `A lacus vestibulum sed arcu non odio` (string, required) - 單一文章英文標題  
+                - description: `Sit amet porttitor eget dolor morbi non. Risus in hendrerit gravida rutrum quisque non tellus orci. Porttitor eget dolor morbi non arcu risus.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 204 (number, required) - 單一文章 ID
+                - title: `2222222 Aliquam vestibulum morbi` (string, required) - 單一文章中文標題  
+                - enTitle: `Tellus elementum sagittis vitae et` (string, required) - 單一文章英文標題  
+                - description: `Nibh praesent tristique magna sit amet purus. Luctus venenatis lectus magna fringilla urna. Neque viverra justo nec ultrices dui sapien.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+            + (object)
+                - postId: 205 (number, required) - 單一文章 ID
+                - title: `Neque viverra justo nec ultrices` (string, required) - 單一文章中文標題  
+                - enTitle: `Fringilla urna` (string, required) - 單一文章英文標題  
+                - description: `Id eu nisl nunc mi ipsum faucibus. Aliquam vestibulum morbi blandit cursus risus at ultrices. Tellus elementum sagittis vitae et.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+            + (object)
+                - postId: 206 (number, required) - 單一文章 ID
+                - title: `Quam viverra orci sagittis eu volutpat` (string, required) - 單一文章中文標題  
+                - enTitle: `Felis bibendum ut` (string, required) - 單一文章英文標題  
+                - description: `Egestas dui id ornare arcu odio ut sem nulla pharetra. Volutpat odio facilisis mauris sit amet massa.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+
+## 單一主題分類內的最新文章C [/api/topicInfo/get_single_list_mock/2]
+### GET-/api/topicInfo/get_sing_list_mock/2[GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + totalElements: 84 (number, required) - 回傳查詢的文章總共有幾篇
+        + totalPages: 12 (number, required) - 回傳查詢的文章總共有幾頁
+        + recommend (array)
+            + (object)
+                - postId: 203 (number, required) - 單一文章 ID
+                - title: `333 Egestas dui id ornare arcu odio` (string, required) - 單一文章中文標題  
+                - enTitle: `A lacus vestibulum sed arcu non odio` (string, required) - 單一文章英文標題  
+                - description: `Sit amet porttitor eget dolor morbi non. Risus in hendrerit gravida rutrum quisque non tellus orci. Porttitor eget dolor morbi non arcu risus.` - (string, required) - 文章引言
+                - publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+                - featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+                - formPeriodical - 出版品資訊
+                    - Include periodical
+                - template - 版型資訊
+                    - Include template
+                - topicInfo - 分類主題資訊
+                    - Include topicInfo
+                - favoriteTo (array[favoriteFolder]) - 被收藏至
+                - author (array) - 作者資訊
+                    - (object)
+                        - name: `AAA` (string, required) - 作者名稱 
+                        - authId: 600 (number, required) - 作者 ID
+                    - (object)
+                        - name: `BBB` (string, required) - 作者名稱 
+                        - authId: 601 (number, required) - 作者 ID
+                    - (object)
+                        - name: `CCC` (string, required) - 作者名稱 
+                        - authId: 602 (number, required) - 作者 ID
+                    - (object)
+                        - name: `DDD` (string, required) - 作者名稱 
+                        - authId: 603 (number, required) - 作者 ID
+                
+
+
+                
+
+# Data Structures
+
+### userLoginRequest
+- userName: `testuser@hbr.com` (string, required) - 帳號
+- passWord: `123456789` (string, required) - 密碼
+- verificationCode: `P1OD6Y` (string, required) - 確認使用者輸入圖形上的驗證碼
+- code: `H0F9HKRXHCCE` (string, required) - 現場請後端產生圖形 code 的 key
+
+### userLoginRespond
+- access_token: `2YotnFZFEjr1zCsicMWpAA` (string, required) - 存取權杖代碼
+- refresh_token: `tGzv3JOkF0XG5Qx2TlKWIA` (string, required) - 刷新存取權杖代碼
+- expires: 1800 (number, required) - 幾秒後過期
+- userId: `A8Y3eqS2Iz` (string, required) - 使用者 ID
+- userName: `王小明` (string, required) - 使用者名稱
+- role: `general` (string, required) - 使用者權限
+
+### listFormat
+- count: 8 (number, optional) - 文章數量, 預設為8篇
+- page: 0 (number, optional) - 文章頁數, 預設為1頁
+- publishedDateStart: `2020/5/1` (string, optional) - 日期開始時間, 可填""
+- publishedDateEnd: `2020/12/20` (string, optional) - 日期結束時間, 可填""
+
+### singAuthorInfo
+- name: `強納森．喬斯林` (string, required) - 作者名稱
+- enName: `Jonathan Gosling` (string, required) - 作者英文名稱
+- urlName: `jonathan-gosling` (string, required) - 網址參數
+- authId: 146 (number, required) - 作者 ID
+- link: "/author/21363/kenneth-lieberthal" (string, required) - 該作者文章列表連結
+- avatar: `https://www.hbrtaiwan.com/images/cover_images/HBR177.jpg` (string, required) - 作者頭像圖片
+- description: `作者介紹` (string, required) - 作者簡述
+
+### singAuthDetail
+- Include singAuthorInfo
+- introduction: `英國埃克塞特大學領導力研究中心(Centre for Leadership Studies at the University of Exeter)主任。` (string, required) - 作者介紹
+- img: `/images/author_images/9444.jpg` (string, required) - 作者圖片
+
+### recommendStudyInfo
+- postId: 0 (number, required) - 單一文章 ID
+- title: `氣候危機總動員` (string, required) - 單一文章中文標題
+- siteCatName: `導師講座` (string, required) - 全站分類名稱
+- description: `職場常見的一個現象是，領導人擁有創意十足想，但是並不太了解營運或執行。這類領導人沒興趣聽取行動方案成功所需要的條件。` - (string, required) - 文章引言
+- featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+- urlTtile: `climate-crisis-mobilization` (string, required) - 網址名稱
+- templateSlug: `article-id-title` (string, required) - 連結版型名稱
+- siteCatTemplateSlug: `mentor` (string, required) - 該文章隸屬單元小首頁版型
+
+### periodical
+- publishedName: `行銷新格局` (string, optional) - 出版品名稱, 可填""
+- publishedMonth: 13 (number, optional) - 出版品月份, 可填""
+- publishedYear: 2025 (number, optional) - 出版品年份, 可填""
+- periodicalImg: `https://www.hbrtaiwan.com/images/cover_images/HBR173.jpg` - 出版品圖片, 可填""
+- periodicalId: 0 (number, optional) - 出版品 ID, 可填""
+
+### articleSource
+- articleSource (array[periodical])
+
+### articleCollection
+- articleCollection (array[periodical])
+
+### template
+- templateName: `單一文章` (string, required) - 版型名稱
+- templateSlug: `article-id-title` (string, required) - 版型別名
+- templateId: 17 (number, required) - 版型 ID
+
+### periodicalCat
+- periodicalCatId: `magazine` (string, required) - 出版品分類 ID, 雜誌「magazine」、特刊「issue」、書籍「book」
+
+### listSingPeriodicalAttr
+- publishedDate: `2020/6/20` (string, required) - 出版品發佈日期
+- formPeriodical - 出版品資訊
+    - Include periodical
+- description: `向未來學習: 讓你的想像力制度化, 協助頹對療育傷痛: 以適當方式對待悲傷的員工, 下一個常態是什麼樣子?` - (string, required) - 出版品引言
+- template - 版型資訊
+    - Include template
+- topicInfo - 分類主題資訊
+    - Include topicInfo
+
+### listSingBookAttr
+- Include listSingPeriodicalAttr
+- webSite: `/event/BHBRCC017/index3.html` (string, optional) - 專題網站網址
+
+### chapterInfo
+- chapterId: 0 (number, required) - 章節 ID
+- chapterTitle: `總編輯的話` (string, required) - 出版品目錄段標
+- chapterPostList (array)
+    - (object)
+        - Include slideSingPostAttr
+
+### favoriteFolder
+- name: `未分類` (string, required) - 收藏資料夾名稱
+- id: 0 (number, required) - 資料夾 ID
+
+### topicInfo
+- topic: `創新` (string, required) - 主題分類中文名稱
+- topicEn: `Innovation` (string, required) - 主題分類英文名稱
+- topicId: 0 (number, required) - 主題分類 ID
+- track: false (boolean, required) - 是否已經追蹤
+
+### extendPost
+- postId: 0 (number, required) - 單一相關文章 ID
+- title: `領導人不在意細節，你該怎麼辦?` (string, required) - 單一相關文章標題
+- author: `艾倫·傑克遜 Alan Jackson` (string, required) - 單一相關文章作者
+- featuredImg: `/images/articles_images/AR0008289.jpg` (string, required) - 單一相關文章圖片
+- urlTitle: `how-to-work-with-a-leader-who-doesnt-care-about-details` (string, required) - 文章網址名稱
+- templateSlug: `article-id-title` (string, required) - 連結版型名稱
+
+### extendPostList
+- extendPostList(array[extendPost])
+
+### singDiscuss
+- userName: `王小明` (string, required) - 評論者名稱
+- userId: `0` (number, required) - 評論者 ID
+- userMessage: `Lorem ipsum dolor sit amet` (string, required) - 評論內容
+
+### discussList
+- discussList(array[singDiscuss])
+
+### slideSingPostAttr
+- postId: 0 (number, required) - 單一文章 ID
+- title: `領導人不在意細節，你該怎麼辦?` (string, required) - 單一文章中文標題  
+- enTitle: `A lacus vestibulum sed arcu non odio` (string, required) - 單一文章英文標題  
+- description: `職場常見的一個現象是，領導人擁有創意十足想，但是並不太了解營運或執行。這類領導人沒興趣聽取行動方案成功所需要的條件。` - (string, required) - 文章引言
+- publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+- featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+- formPeriodical - 出版品資訊
+    - Include periodical
+- template - 版型資訊
+    - Include template
+- topicInfo - 分類主題資訊
+    - Include topicInfo
+- favoriteTo (array[favoriteFolder]) - 被收藏至
+- author (array[singAuthorInfo]) - 作者資訊
+- sponsorText: `贊助不OK`  (string, required) - 贊助名稱
+- sponsorImg: `https://imgs.cwgv.com.tw/test/widely/12/7112/preview/thumb/7112.jpg` (string, required) - 贊助廠商圖片
+- sponsorLogoUrl: `https://www.google.com.tw` (string, required) - 贊助圖片連結
+
+### singPostAttr ( slideSingPostAttr )
+- breadCrumbs - 麵包屑資訊
+    - rank01
+        - title: `數位版文章` (string, optional) - 麵包屑第二順位名稱, 可填""
+        - link: `/blog_list` (string, optional) - 麵包屑第二順位連結, 可填""
+    - rank02
+        - title: `領導人不在意細節，你該怎麼辦?` (string, optional) - 麵包屑第三順位名稱, 可填""
+        - link: `/article_content_AR0009644` (string, optional) - 麵包屑第三順位連結, 可填""
+    - rank03
+        - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+        - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+- subTitle: `有領導力 · 更有管理力` (string, optional) - 副標題, 可填""
+- relatedTopic (array[topicInfo]) - 相關主題分類
+- featuredImgCaption: `良好溝通的兩個最基本的要素，就是傾聽與提問。` (string, optional) - 主圖圖說
+- postContent: `<blockquote> 我是blockquote有些職場建言會告訴你：跟著熱情走。但如果人們沒有找到一個符合他們天生才能、可讓他們內心充滿喜悅的理想工作，這樣的建言可能會帶來傷害，何況熱情可能維持不久。 </blockquote><p> 我是P段落管理變革很困難，但一部分的問題在於：影響轉型行動方案最大的因素是哪些，參與者幾乎沒能取得共識。請五個高階主管說出攸關這些計畫成敗的一個因素<a href="" >你可能會得到五個不同的答案</a >這是因為每個經理人都從自己的角度來看行動方案，而且，會根據個人的經驗，而聚焦在不同的成功因素上。專家也提出不同的觀點。最近，我在亞馬遜網站（Amazon.com）上搜尋「變革與管理」的書籍，一共找到6,153 本，每一本都從截然不同的角度切入這個課題。那些構想給了我們很多啟發，但若把那些構想結合起來，等於是強迫企業同時處理許多優先要務。這使得能用的資源和人力分散，以致變得相當薄弱。此外，組織不同單位的高階主管使用不同的方法，更使得通常會伴隨變革而來的混亂變得更嚴重。 </p><div class="toggleBox"> <div class="spTitle"> <h2>本文觀念<span>精粹</span></h2> </div><table> <tbody> <tr> <th>問題</th> <td> 的看法剛好相反，我們的研究顯示，長期專案如果經常檢討，會比沒有經常檢討的短期專案，更有可能成功。因此，兩次檢討之間的時間，比起整個專案的推行時間 </td></tr><tr> <th>原因</th> <td> 關閉、目標會遭遺忘、關鍵支持者會離開或失去熱情，而且問題會不斷累積但我們的看法剛好相反，我們的研究顯示，長期專案如果經常檢討，會比沒有經常檢討的短期專案，更有可能成功。因此，兩次檢討之間的時間，比起整個專案的推行時間，對成功更重 </td></tr><tr> <th>測試文字</th> <td> 學到了前述這個經驗教訓。1992 年，我們先提出反向假說，指出組織處理轉型的方式極為相似。我們研究許多產業和國家執行的專案，以便找出那些共同的因素 </td></tr></tbody> </table></div><a data-fancybox="gallery" href="https://www.hbrtaiwan.com/images/articles_images/AR0010146.jpg" class="galleryBox" > <img src="https://www.hbrtaiwan.com/images/articles_images/AR0010146.jpg" alt=""/> </a> <h2>我是H2標題</h2><p> 我是P段落近年來，許多變革管理大師著重在軟性議題上，例如，文化、領導和動機。這些因素對成功很重要，但若只是管理這些層面，還不足以執行轉型專案。軟性因素不會直接影響許<a href="" >多變革計畫的結果</a >舉例來說，有遠見的領導，通常是轉型專案的重大因素，但不見得總是如此。與員工的溝通也是一樣。其次，改變態度和關係，沒有那麼容易；它們深植在組織和人員心中。而且，舉個例子來說，雖然文化或動機在程度上的變化，可透過調查和訪談來間接衡量，但還是很難得到有關軟性因素的可靠資料。 </p><ol> <li>通也是一樣。其次，改變態度和關係，沒有那麼容易它</li><li>動方案執行的時間愈長，失敗的可能性愈</li><li> 會比沒有經常檢討的短期專案，更有可能成功。因此，兩次檢討之間的時間，比起整個專案的推行時間，對成 </li></ol><h3>我是H3標題</h3><ul> <li>量公司的優先要務與能力的情況下，領導人可採取的多種路徑</li><li>示的契合度，以及投入特定領域需要耗費的心力，再選定價值的部分</li><li>也有助於行銷團隊與高階主管團隊協調一致，對於我們必</li><li>們選擇的優先事項，包括預測與轉換管理、說故事與內容個</li></ul><div class="questionBoxB"> <div class="questionItem"> <div class="left">Q.</div><div class="right"> 多要學別覺三調個管構還益公舉友表，舉車買；管分當教就們易東黨兩：精得言金它！不合早千年廣道子出？ </div></div></div><h4>我是H4標題</h4><p> 我是P段落企業會犯的一個錯誤，就是很擔心要花多少時間去執行變革計畫。它們認為行動方案執行的時間愈長，失敗的可能性愈高：早期的衝勁會消退、機會之窗會關閉、目標會遭遺忘、<b>說明幾項特徵。首先，我們並未宣</b>關鍵支持者會離開或失去熱情，而且問題會不斷累積。但我們的看法剛好相反，我們的研究顯示，長期專案如果經常檢討，會比沒有經常檢討的短期專案，更有可能成功。因此，兩次檢討之間的時間，比起整個專案的推行時間，對成功更重要。 </p><h5>我是H5標題</h5><img src="https://www.hbrtaiwan.com/images/articles_images/AR0010087_1.jpg" alt=""/> <p> 我是P段落在我們找出變革的共同點時，學到了前述這個經驗教訓。1992 年，我們先提出反向假說，指出組織處理轉型的方式極為相似。我們研究許多產業和國家執行的專案，以便找出那些共同的因素。 </p><h6>我是H6標題</h6><p> 我是P段落企業很容易看出屬於這個光譜兩端的變革計畫，但大部分行動方案落在中間地帶，成敗的可能性很難評估。高階主管必須仔細研究這四個DICE 因素，以判斷他們的變革計畫會成功還是失敗。 </p><div class="convexRow"> <div class="spBox"> <div class="info"> <h5>艾倫．傑克遜 Alan Jackson</h5> <p>Sendoso產品行銷主管</p><h2>這樣的建言可能會帶來傷害，何況熱情可能維持不久。</h2> </div></div><h4>我是H4標題</h4> <p> 我是P段落管理變革很困難，但一部分的問題在於：影響轉型行動方案最大的因素是哪些，參與者幾乎沒能取得共識。請五個高階主管說出攸關這些計畫成敗的一個因素這是因為每個經理人都從自己的角度來看行動方案，而且，會根據個人的經驗，而聚焦在不同的成功因素上。專家也提出不同的觀點。最近，我在亞馬遜網站上搜尋「變革與管理」的書籍，一共找到6,153 本，每一本都從截然不同的角度切入這個課題。那些構想給了我們很多啟發，但若把那些構想結合起來，等於是強迫企業同時處理許多優先要務。這使得能用的資源和人力分散，以致變得相當薄弱。此外，組織不同單位的高階主管使用不同的方法，更使得通常會伴隨變革而來的混亂變得更嚴重。 </p></div><p> 上不時先不推，國解得，世告壓流學效全力、大講讓還名。中學總現藝；別興說們科分以師得發有健看你都座世古書成童可同可觀好計、生國究上自且直人自給年過華獎為是國希開活期，的是裡落來起朋民組讀了情了都巴題然？實認十最一黃以人近外：需雖力吃是，蘭一行了美價種明接。比開望小舉工國我期、男是的親個親，跑對心房。已我更……前空媽把不等明轉銀極人算如的 </p><div class="twocolumn"> <div class="left"> <div class="toggleBox"> <h3>我是H3標題</h3> <p> 的角度來看行動方案，而且，會根據個人的經驗，而聚焦在不同的成功因素上。專家也提出不同的觀點。最近，我在亞馬遜網站（Amazon.com）上搜尋「變革與管理」的書籍，一共找到6,153 本，每一本都從截然不同的角度切入這個課題。那些構想給了我們很多啟發，但若把那些構想結合起來，等於是強迫企業同時處理許多優先要務。這使得能用的資源和人力分散，以致變得相當薄弱。此外，組織不同單位的高階主管使用不同的方法，更使得通常會伴隨變革而來的混亂變得更嚴重 </p></div></div><div class="right"> <h4>我是H4標題</h4> <p> 上不時先不推，國解得，世告壓流學效全力、大講讓還名。中學總現藝；別興說們科分以師得發有健看你都座世古書成童可同可觀好計、生國究上自且直人自給年過華獎為是國希開活期，的是裡落來起朋民組讀了情了都巴題然？實認十最一黃以人近外：需雖力吃是。 </p></div></div><p> 上不時先不推，國解得，世告壓流學效全力、大講讓還名。中學總現藝；別興說們科分以師得發有健看你都座世古書成童可同可觀好計、生國究上自且直人自給年過華獎為是國希開活期，的是裡落來起朋民組讀了情了都巴題然？實認十最一黃以人近外：需雖力吃是，蘭一行了美價種明接。比開望小舉工國我期、男是的親個親，跑對心房。已我更……前空媽把不等明轉銀極人算如的 </p><blockquote class="blockquoteBstyle"> 我是blockquote有些職場建言會告訴你：跟著熱情走。但如果人們沒有找到一個符合他們天生才能、可讓他們內心充滿喜悅的理想工作，這樣的建言可能會帶來傷害，何況熱情可能維持不久。 </blockquote><div class="caseBox"> <div class="title"> <h5>本導讀所涵蓋的《哈佛商業評論全球繁體中文版》</h5> <h3><span>文章與個案</span></h3> </div><ul> <li> <i>[1]</i>〈<a href="studyUS.html" title="" >置身生態系統經濟打團體戰》五大問題，企業請回答</a >〉(In the Ecosystem Economy, What's Your Strategy?)，麥可．賈各比德 (Michael G. Jacobides)，《哈佛商業評論全球繁體中文版》2019年9月號(September-October 2019, HBR) </li><li> <i>[2]</i>〈<a href="studyCountry.html" title="" >全面破壞不是唯一做法，數位不等於打掉重練</a >〉（Digital Doesn't Have to Be Disruptive），納桑．弗爾 （Nathan Furr）、安德魯．施皮洛（Andrew Shipilov），《哈佛商業評論全球繁體中文版》2019年9月號（July-August 2019, HBR） </li><li> <i>[3]</i>〈<a href="studyCountry.html" title="">供應鏈管理之死</a >〉(The Death of Supply Chain Management)亞倫．里沃( Allan Lyall)、 皮耶．梅西爾 (Pierre Mercier) 、 史德方．史戴納(Stefan Gstettner) 《哈佛商業評論全球繁體中文版》數位版文章，2018/7/29 </li></ul></div><div class="markBox"> <h6>個案教學注記</h6> <ul> <li> <i>1</i >上不時先不推，國解得，世告壓流學效全力、大講讓還名。中學總現藝；別興說們科分以師得發有健看你 </li><li> <i>2</i >每一本都從截然不同的角度切入這個課題。那些構想給了我們很多啟發，但若把那些構想結合起來符合他們天生才能、可讓他們內心充滿喜悅的理想工作，等 </li></ul></div><div class="otherStyle"> 有些職場建言會告訴你：跟著熱情走。但如果人們沒有找到一個符合他們天生才能、可讓他們內心充滿喜悅的理想工作，這樣的建言可能會帶來傷害，何況熱情可能維持不久。 </div><p class="authorP"> 周宜芳譯自 “The Rules of Co-opetition” HBR, January - February 2021 </p>` (string, required) - HTML 內文
+- Include articleSource
+- Include articleCollection
+- Include extendPostList
+- Include discussList
+- readHeight: 0 (number, required) - 文章閱讀高度, 會員未登入時回傳0; 會員登入後, 更改此值
+
+### slideSingPostAttrSponsor
+- sponsorText: `思愛普贊助` (string, required) - 此為紅底的贊助文字, 最多七個字
+- postId: 0 (number, required) - 單一文章 ID
+- title: `領導人不在意細節，你該怎麼辦?` (string, required) - 單一文章中文標題
+- description: `職場常見的一個現象是，領導人擁有創意十足想，但是並不太了解營運或執行。這類領導人沒興趣聽取行動方案成功所需要的條件。` - (string, required) - 文章引言
+- publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+- featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+- template - 版型資訊
+    - Include template
+- topicInfo - 分類主題資訊
+    - Include topicInfo
+- favoriteTo (array[favoriteFolder]) - 被收藏至
+
+### singPostAttrSponsor ( slideSingPostAttrSponsor )
+- breadCrumbs - 麵包屑資訊
+    - rank01
+        - title: `數位版文章` (string, optional) - 麵包屑第二順位名稱, 可填""
+        - link: `/blog_list` (string, optional) - 麵包屑第二順位連結, 可填""
+    - rank02
+        - title: `領導人不在意細節，你該怎麼辦?` (string, optional) - 麵包屑第三順位名稱, 可填""
+        - link: `/article_content_AR0009644` (string, optional) - 麵包屑第三順位連結, 可填""
+    - rank03
+        - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+        - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+- featuredImgCaption: `良好溝通的兩個最基本的要素，就是傾聽與提問。` (string, optional) - 主圖圖說
+- postContent: `<blockquote>我是blockquote有些職場建言會告訴你：跟著熱情走。但如果人們沒有找到一個符合他們天生才能、可讓他們內心充滿喜悅的理想工作，這樣的建言可能會帶來傷害，何況熱情可能維持不久。</blockquote><p>我是P段落管理變革很困難，但一部分的問題在於：影響轉型行動方案最大的因素是哪些，參與者幾乎沒能取得共識。請五個高階主管說出攸關這些計畫成敗的一個因素<a href="">你可能會得到五個不同的答案</a>這是因為每個經理人都從自己的角度來看行動方案，而且，會根據個人的經驗，而聚焦在不同的成功因素上。專家也提出不同的觀點。最近，我在亞馬遜網站（Amazon.com）上搜尋「變革與管理」的書籍，一共找到6,153 本，每一本都從截然不同的角度切入這個課題。那些構想給了我們很多啟發，但若把那些構想結合起來，等於是強迫企業同時處理許多優先要務。這使得能用的資源和人力分散，以致變得相當薄弱。此外，組織不同單位的高階主管使用不同的方法，更使得通常會伴隨變革而來的混亂變得更嚴重。</p><div class="expandable" style="overflow: hidden; position: relative; height: 250px;"><div class="toggleBox expandable-init" style="padding-bottom: 1px;"> <div class="spTitle"> <h2>本文觀念<span>精粹</span></h2> </div><table> <tbody> <tr> <th>問題</th> <td>的看法剛好相反，我們的研究顯示，長期專案如果經常檢討，會比沒有經常檢討的短期專案，更有可能成功。因此，兩次檢討之間的時間，比起整個專案的推行時間</td></tr><tr> <th>原因</th> <td>關閉、目標會遭遺忘、關鍵支持者會離開或失去熱情，而且問題會不斷累積但我們的看法剛好相反，我們的研究顯示，長期專案如果經常檢討，會比沒有經常檢討的短期專案，更有可能成功。因此，兩次檢討之間的時間，比起整個專案的推行時間，對成功更重</td></tr><tr> <th>測試文字</th> <td>學到了前述這個經驗教訓。1992 年，我們先提出反向假說，指出組織處理轉型的方式極為相似。我們研究許多產業和國家執行的專案，以便找出那些共同的因素</td></tr></tbody> </table></div><a class="expand-bar"><span class="more" style="">&nbsp;</span><span class="less" style="display: none;">&nbsp; </span><i></i></a></div>` (string, required) - 文章 HTML 原始碼
+- sponsorLogoUrl: `https://parg.co/bpHH` (string, required) - 贊助廠商 Logo 網址
+
+### slideSingVideoAttr
+- postId: 0 (number, required) - 單一影音文章 ID
+- title: `迎接永續新浪潮，台達電如何化ESG為企業DNA` (string, required) - 中文標題
+- publishedDate: `2020/6/20` (string, required) - 發佈日期, 可填""
+- featuredImg: `/images/articles_images/AR0001609.png` (string, required) - 文章主圖
+- template - 版型資訊
+    - Include template
+- topicInfo - 分類主題資訊
+    - Include topicInfo
+- favoriteTo (array[favoriteFolder]) - 被收藏至
+
+### videoConfig
+- image: `https://www.hbrtaiwan.com/images/articles_images/AR0010406.jpg` (string, required) - 影片圖片
+- sources (array)
+    -  (object)
+        - file: `https://www.rmp-streaming.com/media/big-buck-bunny-360p.mp4` (string, required) - 影片連結
+        - label: `360p` (string, required) - 畫質名稱
+    -  (object)
+        - file: `https://www.rmp-streaming.com/media/tos-high.mp4` (string, required) - 影片連結
+        - label: `720p` (string, required) - 畫質名稱
+        
+### singVideoAttr ( slideSingVideoAttr )
+- breadCrumbs - 麵包屑資訊
+    - rank01
+        - title: `影音` (string, optional) - 麵包屑第二順位名稱, 可填""
+        - link: `/video` (string, optional) - 麵包屑第二順位連結, 可填""
+    - rank02
+        - title: `迎接永續新浪潮，台達電如何化ESG為企業DNA` (string, optional) - 麵包屑第三順位名稱, 可填""
+        - link: `/article_content_AR0009644` (string, optional) - 麵包屑第三順位連結, 可填""
+    - rank03
+        - title: `""` (string, optional) - 麵包屑第四順位名稱, 可填""
+        - link: `""` (string, optional) - 麵包屑第四順位連結, 可填""
+- enTitle: `The Sweet Spot Between Privacy and Transparency` (string, required) - 影片英文標題
+- description: `關鍵就是清楚溝通、前後一致` - (string, required) - 影片引言
+- verbatim - 逐字稿
+    - ch (array)
+        -  (object)
+            - order: 0 (number, required) - 順序
+            - role: `艾利森 ‧ 比爾德` (string, required) - 講者名稱
+            - lines: `艾利森 ‧ 比爾德，哈佛商業評論編輯。今天我要訪談的來賓是哈佛商業學院教授，很高興您今天撥冗過來。` (string, required) - 台詞
+        - (object)
+            - order: 1 (number, required) - 順序
+            - role: `伊森 ‧ 伯恩斯坦` (string, required) - 講者名稱
+            - lines: `不客氣，艾利森，這是我的榮幸。` (string, required) - 台詞
+    - en (array)
+        -  (object)
+            - order: 0 (number, required) - 順序
+            - role: `Fermentum` (string, required) - 講者名稱
+            - lines: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.` (string, required) - 台詞
+        - (object)
+            - order: 1 (number, required) - 順序
+            - role: `Ut tristiqu` (string, required) - 講者名稱
+            - lines: `Aliquam etiam erat velit scelerisque.` (string, required) - 台詞
+- explanation: `劉純佑譯` (string, optional) - 額外說明文字
+
+### gptDefineSlot
+- adUnitPath: `/31436032/test_desktop_allPage/test_desktop_allpage>top` (string, required) - 完整的廣告路徑
+- adSize (array) - 此廣告的顯示尺寸陣列
+    - (array) - 單一尺寸 A
+        - 728 (number, required)
+        - 90 (number, required)
+    - (array) - 單一尺寸 B
+        - 970 (number, required)
+        - 250 (number, required)
+    - (array) - 單一尺寸 C
+        - 970 (number, required)
+        - 90 (number, required)
+    - (array) - 單一尺寸 D
+        - 750 (number, required)
+        - 100 (number, required)
+- adDivId: `div-gpt-ad-1612838374752-0` (string, required) - 包含此廣告 div 的 ID
+
+### buyBox
++ sale: true (boolean, required) - 能否販售
++ title: `團體授課購買` (string, required) - 標題
++ teacherSlogan: `教師專屬優惠價` (string, required) - 教師優惠行銷文字
++ copyRight: `版權所有，請勿影印重製` (string, required) - 版權文字
++ buyDescription: `若欲團體授課，請依據使用數購買（最低購買篇數為５篇）` (string, required) - 購買說明文字
++ afterSales: `付款完成後，即可至<a href="membersRecord.html" title="">文章購買紀錄</a>列印文章。<span>有效可列印時間為付款完成後三日內。</span>` (string, required) - 售後說明文字
++ postPrice: 100 (number, required) - 單篇文章定價
++ teacherPrice: 50 (number, required) - 單篇文章教師優惠價
++ minCount: 5 (number, required) - 購買篇數下限
++ maxCount: 99 (number, required) - 購買篇數上限
+
+### jsonId
++ @context: `https://schema.org` (string, required)
++ @type: `NewsArticle` (string, required)
++ mainEntityOfPage (object)
+    + @type: `WebPage` (string, required)
+    + @id: `https://example.org/article` (string, required) - 該篇文章URL
++ headline: `Article headline` (string, required) - 該篇文章主題
++ image: `https://example.org/thumbnail1.jpg` (string, required) - 該篇文章主題圖片URL
++ datePublished: `2025-02-05T08:00:00+08:00` (string, required) - 該篇文章主題發布時間
++ dateModified: `2025-02-05T09:20:00+08:00` (string, required) - 該篇文章主題修改時間
++ author (object)
+    + @type: `Person` (string, required)
+    + name: `John Doe` (string, required) - 該篇文章發布者
++ publisher (object)
+    + name: `The Exemplary Times` (string, required) - 該篇文章發布單位
+    + @type: `Organization` (string, required)
+    + logo (object)
+        + @type: `ImageObject` (string, required)
+        + url: `https://example.org/logo.jpg` (string, required) - 該篇文章發布單位LOGO
++ description: `A most wonderful article` (string, required) - 該篇文章簡述，同網站description
++ isAccessibleForFree: `False` (string, required)
++ hasPart (object)
+    + @type: `WebPageElement` (string, required)
+    + isAccessibleForFree: `False` (string, required)
+    + cssSelector: `.paywall` (string, required) - 參照您在上個步驟 1 新增的 class 名稱
